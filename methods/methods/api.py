@@ -11,7 +11,7 @@ def delete_communications():
 
     print(date_30_days_ago)
 
-    data = frappe.db.sql(f""" Select name From `tabCommunication` Where creation < {date_30_days_ago} """, as_dict=1)
-    
+    data = frappe.db.sql(f""" Select name From `tabCommunication` Where creation < '{date_30_days_ago}' """, as_dict=1)
+    print(data)
     for row in data:
-        frappe.db.delete("Communication", row.name)
+        frappe.db.delete("Communication", row.get("name"))
