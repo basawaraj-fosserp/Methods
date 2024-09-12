@@ -134,7 +134,7 @@ app_license = "mit"
 # ---------------
 
 scheduler_events = {
-	"daily": [
+	"hourly": [
 		"methods.methods.api.delete_communications"
 	],
 }
