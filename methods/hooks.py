@@ -141,7 +141,9 @@ scheduler_events = {
 
 # Testing
 # -------
-
+from ecommerce_integrations.amazon.doctype.amazon_sp_api_settings import amazon_repository 
+from methods.methods.amazon_repository import get_orders as method_get_orders
+amazon_repository.get_orders = method_get_orders
 # before_tests = "methods.install.before_tests"
 
 # Overriding Methods
