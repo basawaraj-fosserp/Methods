@@ -501,6 +501,5 @@ def validate_amazon_sp_api_credentials(**args) -> None:
 
 
 def get_orders(amz_setting_name, created_after) -> list:
-	frappe.throw(str("hello"))
 	ar = AmazonRepository(amz_setting_name)
 	return ar.get_orders(created_after)
