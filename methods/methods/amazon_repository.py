@@ -396,7 +396,7 @@ class AmazonRepository:
 			if not items:
 				return
 
-			customer_name = self.default_customer
+			customer_name = self.amz_setting.default_customer
 
 			delivery_date = dateutil.parser.parse(order.get("LatestShipDate")).strftime("%Y-%m-%d")
 			transaction_date = dateutil.parser.parse(order.get("PurchaseDate")).strftime("%Y-%m-%d")
