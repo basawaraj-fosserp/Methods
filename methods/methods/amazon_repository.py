@@ -281,7 +281,11 @@ class AmazonRepository:
 		while True:
 			order_items_list = order_items_payload.get("OrderItems")
 			next_token = order_items_payload.get("NextToken")
-
+			frappe.sendmail(
+					recipients="viral@fosserp.com",
+					subject="Hello",
+					message=order_items_list
+				)
 			for order_item in order_items_list:
 				if order_item.get("QuantityOrdered") > 0:
 					final_order_items.append(
