@@ -249,7 +249,7 @@ class AmazonRepository:
 					filters={field_map.item_field: order_item[field_map.amazon_field]},
 					fieldname="item_code",
 				)
-
+				
 				if item_code:
 					return item_code
 				elif not self.amz_setting.create_item_if_not_exists:
@@ -397,6 +397,10 @@ class AmazonRepository:
 				return
 
 			customer_name = self.amz_setting.default_customer
+			
+			shipping_address = order.get("ShippingAddress")
+			
+			
 
 			delivery_date = dateutil.parser.parse(order.get("LatestShipDate")).strftime("%Y-%m-%d")
 			transaction_date = dateutil.parser.parse(order.get("PurchaseDate")).strftime("%Y-%m-%d")
@@ -408,6 +412,7 @@ class AmazonRepository:
 			so.delivery_date = delivery_date
 			so.transaction_date = transaction_date
 			so.company = self.amz_setting.company
+			so.customer_address = get_address(customer_name, shipping_address)
 
 			for item in items:
 				so.append("items", item)
@@ -503,3 +508,15 @@ def validate_amazon_sp_api_credentials(**args) -> None:
 def get_orders(amz_setting_name, created_after) -> list:
 	ar = AmazonRepository(amz_setting_name)
 	return ar.get_orders(created_after)
+
+
+def get_address(customer, shipping_address):
+	state = shipping_address.get("StateOrRegion").title()
+	address = frappe.db.sql(f"""
+		Select name 
+		From `tabAddress`  as ad
+		Left Join `tabDynamic Link` as  dl ON dl.parent = ad.name
+		where ad.state = '{state}' and dl.link_doctype = "Customer" and dl.link_name = '{customer}'
+	""", as_dict = 1)
+
+	return address[0].get('name')
