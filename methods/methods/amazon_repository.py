@@ -513,7 +513,7 @@ def get_orders(amz_setting_name, created_after) -> list:
 def get_address(customer, shipping_address):
 	state = shipping_address.get("StateOrRegion").title()
 	address = frappe.db.sql(f"""
-		Select name 
+		Select ad.name 
 		From `tabAddress`  as ad
 		Left Join `tabDynamic Link` as  dl ON dl.parent = ad.name
 		where ad.state = '{state}' and dl.link_doctype = "Customer" and dl.link_name = '{customer}'
