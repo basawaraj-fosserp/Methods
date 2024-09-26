@@ -281,7 +281,7 @@ class AmazonRepository:
 		while True:
 			order_items_list = order_items_payload.get("OrderItems")
 			next_token = order_items_payload.get("NextToken")
-			frappe.log_error(order_items_list)
+			frappe.log_error(str(order_items_list))
 
 			for order_item in order_items_list:
 				if order_item.get("QuantityOrdered") > 0:
