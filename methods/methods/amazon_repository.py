@@ -416,7 +416,11 @@ class AmazonRepository:
 			so.delivery_date = delivery_date
 			so.transaction_date = transaction_date
 			so.company = self.amz_setting.company
-			so.customer_address = get_address(customer_name, shipping_address)
+			if not get_address(customer_name, shipping_address):
+				address = self.amz_setting.default_address	
+			else:
+				address = get_address(customer_name, shipping_address)
+			so.customer_address = address
 
 			for item in items:
 				so.append("items", item)
@@ -515,12 +519,14 @@ def get_orders(amz_setting_name, created_after) -> list:
 
 
 def get_address(customer, shipping_address):
-	state = shipping_address.get("StateOrRegion").title()
-	address = frappe.db.sql(f"""
-		Select ad.name 
-		From `tabAddress`  as ad
-		Left Join `tabDynamic Link` as  dl ON dl.parent = ad.name
-		where ad.state = '{state}' and dl.link_doctype = "Customer" and dl.link_name = '{customer}'
-	""", as_dict = 1)
+	if shipping_address:
+		state = shipping_address.get("StateOrRegion").title()
+		address = frappe.db.sql(f"""
+			Select ad.name 
+			From `tabAddress`  as ad
+			Left Join `tabDynamic Link` as  dl ON dl.parent = ad.name
+			where ad.state = '{state}' and dl.link_doctype = "Customer" and dl.link_name = '{customer}'
+		""", as_dict = 1)
 
-	return address[0].get('name')
+		return address[0].get('name')
+	return None
