@@ -19,6 +19,7 @@ from ecommerce_integrations.amazon.doctype.amazon_sp_api_settings.amazon_sp_api 
 from ecommerce_integrations.amazon.doctype.amazon_sp_api_settings.amazon_sp_api_settings import (
 	AmazonSPAPISettings,
 )
+from frappe.utils import flt
 
 
 class AmazonRepository:
@@ -295,7 +296,7 @@ class AmazonRepository:
 							"item_code": self.get_item_code(order_item),
 							"item_name": order_item.get("SellerSKU"),
 							"description": order_item.get("Title"),
-							"rate": order_item.get("ItemPrice", {}).get("Amount", 0)/3 if order_item.get("ItemPrice", {}).get("Amount", 0)/3 else 0,
+							"rate": flt(order_item.get("ItemPrice", {}).get("Amount", 0))/3 if order_item.get("ItemPrice", {}).get("Amount", 0) else 0,
 							"qty": order_item.get("QuantityOrdered"),
 							"stock_uom": "Nos",
 							"warehouse": warehouse,
