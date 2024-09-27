@@ -286,14 +286,16 @@ class AmazonRepository:
 					subject="Hello",
 					message=order_items_list
 				)
+			ShippingPrice = 0
 			for order_item in order_items_list:
+
 				if order_item.get("QuantityOrdered") > 0:
 					final_order_items.append(
 						{
 							"item_code": self.get_item_code(order_item),
 							"item_name": order_item.get("SellerSKU"),
 							"description": order_item.get("Title"),
-							"rate": order_item.get("ItemPrice", {}).get("Amount", 0),
+							"rate": order_item.get("ItemPrice", {}).get("Amount", 0)/3 if order_item.get("ItemPrice", {}).get("Amount", 0)/3 else 0,
 							"qty": order_item.get("QuantityOrdered"),
 							"stock_uom": "Nos",
 							"warehouse": warehouse,
