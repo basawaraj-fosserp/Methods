@@ -531,13 +531,12 @@ def get_address(customer, shipping_address):
 			Left Join `tabDynamic Link` as  dl ON dl.parent = ad.name
 			where ad.state = '{state}' and dl.link_doctype = "Customer" and dl.link_name = '{customer}'
 		""", as_dict = 1)
-		if not address:
-			frappe.sendmail(
-				recipients="viral@fosserp.com",
-				subject="Hello",
-				message=shipping_address
-			)
-			frappe.db.commit()
-			return None
+		# if not address:
+		# 	frappe.sendmail(
+		# 		recipients="viral@fosserp.com",
+		# 		subject="Hello",
+		# 		message=shipping_address
+		# 	)
+		# 	return None
 		return address[0].get('name')
 	return None
