@@ -524,11 +524,7 @@ def get_orders(amz_setting_name, created_after) -> list:
 def get_address(customer, shipping_address):
 	if shipping_address:
 		state = shipping_address.get("StateOrRegion").title()
-		frappe.sendmail(
-					recipients="viral@fosserp.com",
-					subject="Hello",
-					message=shipping_address
-				)
+		frappe.throw(str(state))
 		address = frappe.db.sql(f"""
 			Select ad.name 
 			From `tabAddress`  as ad
