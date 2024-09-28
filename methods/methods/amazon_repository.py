@@ -537,6 +537,7 @@ def get_address(customer, shipping_address):
 				subject="Hello",
 				message=shipping_address
 			)
+			frappe.db.commit()
 			return None
 		return address[0].get('name')
 	return None
