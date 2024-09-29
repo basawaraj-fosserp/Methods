@@ -439,10 +439,10 @@ class AmazonRepository:
 				for fee in charges_and_fees.get("fees"):
 					so.append("taxes", fee)
 
-			so.insert(ignore_permissions=True)
-			so.submit()
+			# so.insert(ignore_permissions=True)
+			# so.submit()
 
-			return so.name
+			# return so.name
 
 	def get_orders(self, created_after) -> list:
 		orders = self.get_orders_instance()
