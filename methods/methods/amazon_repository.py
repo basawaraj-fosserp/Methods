@@ -22,7 +22,7 @@ from ecommerce_integrations.amazon.doctype.amazon_sp_api_settings.amazon_sp_api_
 from frappe.utils import flt
 
 
-class AmazonRepository:
+class MethodAmazonRepository:
 	def __init__(self, amz_setting: str | AmazonSPAPISettings) -> None:
 		if isinstance(amz_setting, str):
 			amz_setting = frappe.get_doc("Amazon SP API Settings", amz_setting)
@@ -517,7 +517,7 @@ def validate_amazon_sp_api_credentials(**args) -> None:
 
 
 def get_orders(amz_setting_name, created_after) -> list:
-	ar = AmazonRepository(amz_setting_name)
+	ar = MethodAmazonRepository(amz_setting_name)
 	return ar.get_orders(created_after)
 
 
