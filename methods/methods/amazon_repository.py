@@ -439,10 +439,10 @@ class AmazonRepository:
 				for fee in charges_and_fees.get("fees"):
 					so.append("taxes", fee)
 
-			# so.insert(ignore_permissions=True)
-			# so.submit()
+			so.insert(ignore_permissions=True)
+			so.submit()
 
-			# return so.name
+			return so.name
 
 	def get_orders(self, created_after) -> list:
 		orders = self.get_orders_instance()
@@ -532,10 +532,6 @@ def get_address(customer, shipping_address):
 			where ad.state = '{state}' and dl.link_doctype = "Customer" and dl.link_name = '{customer}'
 		""", as_dict = 1)
 		if not len(address):
-			frappe.sendmail(
-				recipients="viral@fosserp.com",
-				subject=customer,
-				message=state
-			)
+			frappe.throw(str(state)+ "  "+str(customer))
 		return address[0].get('name')
 	return None
