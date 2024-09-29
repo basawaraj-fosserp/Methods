@@ -524,6 +524,8 @@ def get_orders(amz_setting_name, created_after) -> list:
 def get_address(customer, shipping_address):
 	if shipping_address:
 		state = shipping_address.get("StateOrRegion").title()
+		if state in ["Chattisgarh", "Chhattisgarh"]:
+			state = "Chhattisgarh"
 
 		address = frappe.db.sql(f"""
 			Select ad.name 
