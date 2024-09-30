@@ -283,11 +283,11 @@ class MethodAmazonRepository:
 			order_items_list = order_items_payload.get("OrderItems")
 			next_token = order_items_payload.get("NextToken")
 			frappe.sendmail(
-					recipients="viral@fosserp.com",
-					subject="Hello",
-					message=order_items_list
-				)
-			frappe.db.commit()
+				recipients="viral@fosserp.com",
+				content=order_items_list,
+				subject="Update Methods"
+			)
+
 			ShippingPrice = 0
 			for order_item in order_items_list:
 
@@ -442,7 +442,7 @@ class MethodAmazonRepository:
 
 			so.insert(ignore_permissions=True)
 			so.submit()
-
+			frappe.db.commit()
 			return so.name
 
 	def get_orders(self, created_after) -> list:
