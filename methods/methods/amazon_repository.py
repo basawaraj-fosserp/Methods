@@ -297,7 +297,7 @@ class MethodAmazonRepository:
 							"item_code": self.get_item_code(order_item),
 							"item_name": order_item.get("SellerSKU"),
 							"description": order_item.get("Title"),
-							"rate": flt(order_item.get("ItemPrice", {}).get("Amount", 0))/3 if order_item.get("ItemPrice", {}).get("Amount", 0) else 0,
+							"rate": flt(order_item.get("ItemPrice", {}).get("Amount", 0))/order_item.get("QuantityOrdered"),
 							"qty": order_item.get("QuantityOrdered"),
 							"stock_uom": "Nos",
 							"warehouse": warehouse,
