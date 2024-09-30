@@ -287,6 +287,7 @@ class MethodAmazonRepository:
 					subject="Hello",
 					message=order_items_list
 				)
+			frappe.db.commit()
 			ShippingPrice = 0
 			for order_item in order_items_list:
 
