@@ -17,7 +17,7 @@ frappe.SpoolDoc = {
 		this.page = wrapper.page;
 		this.setup_fields(wrapper, page)
 		this.setup_data(wrapper, page)
-		$(".refresh").click(function() {
+		$(wrapper).find(".refresh").click(function() {
 			location.reload();
 		});
 		
@@ -64,7 +64,7 @@ frappe.SpoolDoc = {
 					$('input[id="method_invoice"]').prop('checked', isChecked);
 				});
 				$('.create').on('click', function(){
-					frappe.SpoolDoc.create_file()
+					frappe.SpoolDoc.create_file(wrapper, page)
 				})
 			 }
 		})
@@ -122,14 +122,13 @@ frappe.SpoolDoc = {
 		if(data.length){
 			invoice_html += `<div class="row">
 								<div class="col-2"><button class="btn btn-primary create">Create</button></div>
-								<div class="col-2"><button class="btn btn-primary refresh">Refresh</button></div>
 							</div>`
 			}			
 		this.wrapper.append(invoice_html)
 		
 		
 	},
-	create_file:function(){
+	create_file:function(wrapper, page){
 		let invoices = []
 		$('input[id="method_invoice"]').each(function() {
 			if ($(this).is(':checked')) {  // Check if the checkbox is checked
@@ -144,6 +143,8 @@ frappe.SpoolDoc = {
 			},
 			callback:(r)=>{
 				$(".create").css("display", "none");
+				$(wrapper).find(".invoice_data").empty();
+				frappe.SpoolDoc.setup_data(wrapper, page)
 				const fileUrl = '/files/spool.txt';  // Relative URL from your public folder
 				const a = document.createElement('a');
 				a.href = fileUrl;
