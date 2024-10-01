@@ -23,7 +23,7 @@ def get_sales_invoice(from_date, to_date):
             si.po_no, 
             si.company_gstin
             From `tabSales Invoice` as si
-            Where si.docstatus=1 and si.customer_name like '%Maruti Suzuki%' {condition} 
+            Where si.docstatus=1 and si.spool_file_created = 1 andsi.customer_name like '%Maruti Suzuki%' {condition} 
     """, as_dict=1 )
 
     for row in data:
@@ -73,7 +73,7 @@ def create_spool_file(invoices):
             f.write("{0}{1}{2}{1}{2}                        {3}   {4}        {5}          {6}                                                   {7}\n".format(
                 "M061", row.name, row.posting_date.strftime('%d-%b-%Y').upper(), row.schedule_no, row.item_code, row.po_no, row.per_bin_qty, row.batch_no))
             f.write("{0}{1}{2}                               {2}                         NA             {3}\n".format(row.company_gstin,row.gst_hsn_code ,gst,row.irn))
-
+            frappe.db.set_value("Sales Invoice", row.name, "spool_file_created", 1)
     return file_path
 
 
