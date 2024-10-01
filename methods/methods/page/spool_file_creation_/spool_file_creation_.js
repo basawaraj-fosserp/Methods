@@ -17,6 +17,10 @@ frappe.SpoolDoc = {
 		this.page = wrapper.page;
 		this.setup_fields(wrapper, page)
 		this.setup_data(wrapper, page)
+		$(".refresh").click(function() {
+			location.reload();
+		});
+		
 		
 	
 	},
@@ -139,6 +143,7 @@ frappe.SpoolDoc = {
 				"invoices" : invoices 
 			},
 			callback:(r)=>{
+				$(".create").css("display", "none");
 				const fileUrl = '/files/spool.txt';  // Relative URL from your public folder
 				const a = document.createElement('a');
 				a.href = fileUrl;
