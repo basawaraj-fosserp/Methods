@@ -23,9 +23,9 @@ def get_sales_invoice(from_date, to_date):
             si.po_no, 
             si.company_gstin
             From `tabSales Invoice` as si
-            Where si.docstatus=1 and si.spool_file_created = 1 and si.customer_name like '%Maruti Suzuki%' {condition} 
+            Where si.docstatus=1 and si.spool_file_created = 0 and si.customer_name like '%Maruti Suzuki%' {condition} 
     """, as_dict=1 )
-    
+
     return data
 
 
