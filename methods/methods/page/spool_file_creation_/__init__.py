@@ -25,10 +25,7 @@ def get_sales_invoice(from_date, to_date):
             From `tabSales Invoice` as si
             Where si.docstatus=1 and si.spool_file_created = 1 and si.customer_name like '%Maruti Suzuki%' {condition} 
     """, as_dict=1 )
-
-    for row in data:
-        row.update({"vendor_no" : "M061", "spares_indicator" : "S"})
-        row.update({"posting_date" : row.posting_date.strftime('%d-%m-%Y')})
+    
     return data
 
 
