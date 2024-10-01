@@ -105,13 +105,13 @@ frappe.SpoolDoc = {
 			invoice_html += `<tr>
 								<td class="row_bottom"><input type="checkbox" class=${r.name} id="method_invoice"></td>
 								<td class="row_bottom">
-									<p><a href='https://methods.fosscrm.com/app/sales-invoice/${r.name}'>${r.name}</a></p>
+									<p><a href='sales-invoice/${r.name}'>${r.name}</a></p>
 								</td>
 								<td class="row_bottom">
 									<p>${r.posting_date}</p>
 								</td>
 								<td class="row_bottom">
-									<p><a href='https://methods.fosscrm.com/app/customer/${r.customer}'>${r.customer_name}</a></p>
+									<p><a href='customer/${r.customer}'>${r.customer_name}</a></p>
 								</td>
 							</tr>`
 			});
@@ -151,6 +151,7 @@ frappe.SpoolDoc = {
 				document.body.appendChild(a);
 				a.click();
 				document.body.removeChild(a);
+				frappe.SpoolDoc.setup_data(wrapper, page)
 			}
 		})
 	}
