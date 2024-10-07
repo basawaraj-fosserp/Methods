@@ -306,7 +306,7 @@ class MethodAmazonRepository:
 					)
 				if flt(order_item.get("ShippingPrice").get("Amount")) > 0:
 					final_order_items.append({
-						"item_code": "Amazon Delivery service",
+						"item_code": "{0}".format(self.amz_setting.delivery_service),
 						"item_name": "Amazon Delivery service",
 						"description": "Amazon Delivery service",
 						"rate": flt(order_item.get("ShippingPrice", {}).get("Amount", 0)),
