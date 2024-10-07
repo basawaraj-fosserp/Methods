@@ -290,16 +290,7 @@ class MethodAmazonRepository:
 
 			ShippingPrice = 0
 			for order_item in order_items_list:
-				if flt(order_item.get("ShippingPrice").get("Amount")) > 0:
-					final_order_items.append({
-						"item_code": "Amazon Delivery service",
-						"item_name": "Amazon Delivery service",
-						"description": "Amazon Delivery service",
-						"rate": flt(order_item.get("ShippingPrice", {}).get("Amount", 0)),
-						"qty": 1,
-						"stock_uom": "Nos",
-						"item_tax_template" : "GST 18%"
-					})
+				
 				if order_item.get("QuantityOrdered") > 0:
 					final_order_items.append(
 						{
@@ -313,6 +304,16 @@ class MethodAmazonRepository:
 							"conversion_factor": 1.0,
 						}
 					)
+				if flt(order_item.get("ShippingPrice").get("Amount")) > 0:
+					final_order_items.append({
+						"item_code": "Amazon Delivery service",
+						"item_name": "Amazon Delivery service",
+						"description": "Amazon Delivery service",
+						"rate": flt(order_item.get("ShippingPrice", {}).get("Amount", 0)),
+						"qty": 1,
+						"stock_uom": "Nos",
+						"item_tax_template" : "GST 18%"
+					})
 
 			if not next_token:
 				break
