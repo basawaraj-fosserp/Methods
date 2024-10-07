@@ -290,7 +290,15 @@ class MethodAmazonRepository:
 
 			ShippingPrice = 0
 			for order_item in order_items_list:
-
+				if order_item.get("ShippingPrice").get("Amount") > 0:
+					final_order_items.append({
+						"item_code": "Amazon Delivery service",
+						"item_name": "Amazon Delivery service",
+						"description": "Amazon Delivery service",
+						"rate": flt(order_item.get("ShippingPrice", {}).get("Amount", 0)),
+						"qty": 1,
+						"stock_uom": "Nos",
+					})
 				if order_item.get("QuantityOrdered") > 0:
 					final_order_items.append(
 						{
