@@ -305,16 +305,16 @@ class MethodAmazonRepository:
 							"conversion_factor": 1.0,
 						}
 					)
-				if flt(order_item.get("ShippingPrice", {}).get("Amount", 0)) > 0:
-					final_order_items.append({
-						"item_code": "{0}".format(self.amz_setting.delivery_service),
-						"item_name": "Amazon Delivery service",
-						"description": "Amazon Delivery service",
-						"rate": flt(order_item.get("ShippingPrice", {}).get("Amount", 0)),
-						"qty": 1,
-						"stock_uom": "Nos",
-						"item_tax_template" : "GST 18%"
-					})
+					if flt(order_item.get("ShippingPrice", {}).get("Amount", 0)) > 0:
+						final_order_items.append({
+							"item_code": "{0}".format(self.amz_setting.delivery_service),
+							"item_name": "Amazon Delivery service",
+							"description": "Amazon Delivery service",
+							"rate": flt(order_item.get("ShippingPrice", {}).get("Amount", 0)),
+							"qty": 1,
+							"stock_uom": "Nos",
+							"item_tax_template" : "GST 18%"
+						})
 
 			if not next_token:
 				break
