@@ -304,7 +304,7 @@ class MethodAmazonRepository:
 							"conversion_factor": 1.0,
 						}
 					)
-				if flt(order_item.get("ShippingPrice")):
+				if (order_item.get("ShippingPrice")):
 					if flt(order_item.get("ShippingPrice").get("Amount")) > 0:
 						final_order_items.append({
 							"item_code": "{0}".format(self.amz_setting.delivery_service),
