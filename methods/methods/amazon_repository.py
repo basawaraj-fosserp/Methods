@@ -298,6 +298,7 @@ class MethodAmazonRepository:
 						"rate": flt(order_item.get("ShippingPrice", {}).get("Amount", 0)),
 						"qty": 1,
 						"stock_uom": "Nos",
+						"item_tax_template" : "GST 18%"
 					})
 				if order_item.get("QuantityOrdered") > 0:
 					final_order_items.append(
