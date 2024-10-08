@@ -45,7 +45,7 @@ def create_spool_file(invoices):
                     "(" + ", ".join([f'"{l}"' for l in actual_list]) + ")")
         
     data = frappe.db.sql(f"""
-                SELECT si.name, si.schedule_no, si.posting_date, si.company_gstin, si.irn,
+                SELECT si.name, si.schedule_no, si.posting_date, si.company_gstin, si.irn,si.po_no,
                 sii.item_code, sii.qty, item.per_bin_qty, item.batch_no, sii.gst_hsn_code,
                 sii.item_tax_template, sii.igst_rate, sii.igst_amount, sii.cgst_rate, sii.cgst_amount,
                 sii.sgst_rate, sii.sgst_amount
@@ -67,9 +67,53 @@ def create_spool_file(invoices):
                 gst += row.cgst_amount
             if row.sgst_amount:
                 gst += row.sgst_amount
-            f.write("{0}{1}{2}{1}{2}                        {3}   {4}        {5}          {6}                                                   {7}\n".format(
-                "M061", row.name, row.posting_date.strftime('%d-%b-%Y').upper(), row.schedule_no, row.item_code, row.po_no, row.per_bin_qty, row.batch_no))
-            f.write("{0}{1}{2}                               {2}                         NA             {3}\n".format(row.company_gstin,row.gst_hsn_code ,gst,row.irn))
+            
+            content = "M061{0}{1}{0}{1}".format(
+                row.name,
+                row.posting_date.strftime('%d-%b-%Y').upper(),
+            )
+            content = content.ljust(82)
+
+            content += "{0}".format(row.schedule_no)
+
+            content = content.ljust(98)
+
+            content += "{0}{1}".format(row.item_code, row.qty)
+
+            content =  content.ljust(125)
+
+            content += "{0}".format(row.po_no)
+
+            content =  content.ljust(142)
+
+            content += "{0}".format(row.per_bin_qty)
+
+            content = content.ljust(194)
+
+            content += "{0}".format(row.batch_no)
+
+            content = content.ljust(204)
+
+            content += "{0}{1}".format(row.company_gstin, row.gst_hsn_code)
+
+            if row.cgst_amount > 0:
+                content += "{0}".format(row.cgst_amount)
+            if row.sgst_amount > 0:
+                content = content.ljust(243)
+                content += "{0}".format(row.sgst_amount)
+            if row.igst_amount > 0:
+                content =content.ljust(259)
+                content += "{0}".format(row.igst_amount)
+            
+            content = content.ljust(275)
+            content += "NA"
+
+            content = content.ljust(290)
+            content += "{0}".format(row.irn)
+
+            content += "\n"
+
+            f.write(content)
             frappe.db.set_value("Sales Invoice", row.name, "spool_file_created", 1)
     return file_path
 
