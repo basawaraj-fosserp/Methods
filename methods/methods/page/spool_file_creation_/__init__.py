@@ -78,7 +78,7 @@ def create_spool_file(invoices):
 
             content = content.ljust(98)
 
-            content += "{0}{1}".format(row.item_code, row.qty)
+            content += "{0}{1}".format(row.item_code, int(row.qty))
 
             content =  content.ljust(125)
 
