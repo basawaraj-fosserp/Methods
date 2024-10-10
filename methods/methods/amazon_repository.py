@@ -453,7 +453,6 @@ class MethodAmazonRepository:
 
 			so.insert(ignore_permissions=True)
 			so.submit()
-			frappe.db.commit()
 			return so.name
 
 	def get_orders(self, created_after) -> list:
