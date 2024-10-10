@@ -43,6 +43,15 @@ frappe.SpoolDoc = {
 				frappe.SpoolDoc.setup_data(wrapper, page)
 			}
 		})
+		this.customer_field = page.add_field({
+			fieldname: 'customer',
+			label: __('Customer'),
+			fieldtype:'Link',
+			options:"Customer",
+			change: function () {
+				frappe.SpoolDoc.setup_data(wrapper, page)
+			}
+		})
 	},
 	setup_data:function(wrapper, page){
 		frappe.call({
@@ -50,6 +59,7 @@ frappe.SpoolDoc = {
 			 args:{
 				'from_date': this.from_date_field.get_value(),
 				'to_date': this.from_date_field.get_value(),
+				"customer":this.customer_field.get_value()
 			 },
 			 callback:function(r){
 				let data = r.message

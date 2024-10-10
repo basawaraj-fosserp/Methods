@@ -6,12 +6,17 @@ from frappe.model.naming import make_autoname
 
 
 @frappe.whitelist()
-def get_sales_invoice(from_date, to_date):
+def get_sales_invoice(from_date, to_date, customer):
     condition = ''
     if from_date:
         condition += f" and si.posting_date >= '{from_date}'"
     if to_date:
         condition += f" and si.posting_date <= '{to_date}'"
+    
+    if customer:
+        condition += f" and si.customer = '{customer}'"
+
+    condition += f" and si.customer_group = 'MSIL' "
 
     data = frappe.db.sql(f"""
             Select si.name, 
@@ -26,7 +31,7 @@ def get_sales_invoice(from_date, to_date):
             sii.qty
             From `tabSales Invoice` as si
             Left Join `tabSales Invoice Item` as sii ON sii.parent = si.name
-            Where si.docstatus=1 and si.spool_file_created = 0 and si.customer_name like '%Maruti Suzuki%' {condition} 
+            Where si.docstatus=1 and si.spool_file_created = 0  {condition} 
     """, as_dict=1 )
 
     return data
