@@ -97,21 +97,29 @@ frappe.SpoolDoc = {
 		let invoice_html = `<table width="100%">
 								<tr>
 									<td class="onbottom"><input type="checkbox" class="selectall"></td>
-									<td class="onbottom"><p style="font-size:16px;"><b>Invoice No</b></p></td>
 									<td class="onbottom"><p style="font-size:16px;"><b>Invoice Date</b></p></td>
+									<td class="onbottom"><p style="font-size:16px;"><b>Invoice No</b></p></td>
 									<td class="onbottom"><p style="font-size:16px;"><b>Customer Name</b></p></td>
+									<td class="onbottom"><p style="font-size:16px;"><b>Item Code</b></p></td>
+									<td class="onbottom"><p style="font-size:16px;"><b>Qty</b></p></td>
 								</tr>`
 		data.forEach(r => {
 			invoice_html += `<tr>
 								<td class="row_bottom"><input type="checkbox" class=${r.name} id="method_invoice"></td>
 								<td class="row_bottom">
-									<p><a href='sales-invoice/${r.name}'>${r.name}</a></p>
-								</td>
-								<td class="row_bottom">
 									<p>${r.posting_date}</p>
 								</td>
 								<td class="row_bottom">
+									<p><a href='sales-invoice/${r.name}'>${r.name}</a></p>
+								</td>
+								<td class="row_bottom">
 									<p><a href='customer/${r.customer}'>${r.customer_name}</a></p>
+								</td>
+								<td class="row_bottom">
+									<p><a>${r.item_code}</a></p>
+								</td>
+								<td class="row_bottom">
+									<p><a>${r.qty}</a></p>
 								</td>
 							</tr>`
 			});

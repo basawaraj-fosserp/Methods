@@ -21,8 +21,11 @@ def get_sales_invoice(from_date, to_date):
             si.irn, 
             si.schedule_no, 
             si.po_no, 
-            si.company_gstin
+            si.company_gstin,
+            sii.item_code,
+            sii.qty
             From `tabSales Invoice` as si
+            Left Join `tabSales Invoice Item` as sii ON sii.parent = si.name
             Where si.docstatus=1 and si.spool_file_created = 0 and si.customer_name like '%Maruti Suzuki%' {condition} 
     """, as_dict=1 )
 
