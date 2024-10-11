@@ -50,7 +50,14 @@ frappe.SpoolDoc = {
 			options:"Customer",
 			change: function () {
 				frappe.SpoolDoc.setup_data(wrapper, page)
-			}
+			},
+			get_query: () => {
+                return {
+                    filters: {
+                        customer_group: "MSIL",
+                    },
+                };
+            },
 		})
 	},
 	setup_data:function(wrapper, page){
@@ -58,7 +65,7 @@ frappe.SpoolDoc = {
 			 method:"methods.methods.page.spool_file_creation_.get_sales_invoice",
 			 args:{
 				'from_date': this.from_date_field.get_value(),
-				'to_date': this.from_date_field.get_value(),
+				'to_date': this.to_date_field.get_value(),
 				"customer":this.customer_field.get_value()
 			 },
 			 callback:function(r){
