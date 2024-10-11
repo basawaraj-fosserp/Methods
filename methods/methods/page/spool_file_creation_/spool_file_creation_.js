@@ -12,6 +12,9 @@ frappe.SpoolDoc = {
 	init:function(wrapper, page){
 		this.wrapper = $(wrapper).find('.layout-main-section');
 		this.wrapper.append(`
+			<div class="selected_number"></div>
+			`)
+		this.wrapper.append(`
 			<div class="invoice_data"></div>
 			`)
 		this.page = wrapper.page;
@@ -20,7 +23,34 @@ frappe.SpoolDoc = {
 		$(wrapper).find(".refresh").click(function() {
 			location.reload();
 		});
-		
+		$('.selectall').on('click', function(){
+			console.log("hhhh")
+			const allCheckboxes = document.querySelectorAll('input[id="method_invoice"]');
+			console.log(allCheckboxes)
+			selected = 0
+			allCheckboxes.forEach(r=>{
+				console.log(r.checked)
+				if (!r.checked){
+					selected += 1	
+				}
+			})
+			this.wrapper = $(wrapper).find('.selected_number').empty()	;
+			this.wrapper = $(wrapper).find('.selected_number');
+			this.wrapper.append(`<b>${selected} / ${allCheckboxes.length}</b>`)
+		})
+		$('input[id="method_invoice"]').on('click', function(){
+			const allCheckboxes = document.querySelectorAll('input[id="method_invoice"]');
+			selected = 0
+			allCheckboxes.forEach(r=>{
+				console.log(r.checked)
+				if (!r.checked){
+					selected += 1	
+				}
+			})
+			this.wrapper = $(wrapper).find('.selected_number').empty()	;
+			this.wrapper = $(wrapper).find('.selected_number');
+			this.wrapper.append(`<b>${selected} / ${allCheckboxes.length}</b>`)
+		})
 		
 	
 	},
@@ -82,6 +112,31 @@ frappe.SpoolDoc = {
 				});
 				$('.create').on('click', function(){
 					frappe.SpoolDoc.create_file(wrapper, page)
+				})
+				$('.selectall').on('click', function(){
+					const allCheckboxes = document.querySelectorAll('input[id="method_invoice"]');
+					selected = 0
+					allCheckboxes.forEach(r=>{
+						console.log(r.checked)
+						if (!r.checked){
+							selected += 1	
+						}
+					})
+					this.wrapper = $(wrapper).find('.selected_number').empty()	;
+					this.wrapper = $(wrapper).find('.selected_number');
+					this.wrapper.append(`<b>${selected} / ${allCheckboxes.length}</b>`)
+				})
+				$('input[id="method_invoice"]').on('click', function(){
+					const allCheckboxes = document.querySelectorAll('input[id="method_invoice"]');
+					selected = 0
+					allCheckboxes.forEach(r=>{
+						if (r.checked){
+							selected += 1	
+						}
+					})
+					this.wrapper = $(wrapper).find('.selected_number').empty()	;
+					this.wrapper = $(wrapper).find('.selected_number');
+					this.wrapper.append(`<b>${selected} / ${allCheckboxes.length}</b>`)
 				})
 			 }
 		})
