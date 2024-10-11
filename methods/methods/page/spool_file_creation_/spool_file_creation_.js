@@ -233,6 +233,7 @@ frappe.SpoolDoc = {
 				a.click();
 				document.body.removeChild(a);
 				frappe.SpoolDoc.setup_data(wrapper, page)
+				this.wrapper = $(wrapper).find('.selected_number').empty();
 			}
 		})
 	}
