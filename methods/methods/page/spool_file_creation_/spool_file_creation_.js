@@ -172,6 +172,7 @@ frappe.SpoolDoc = {
 									<td class="onbottom"><p style="font-size:16px;"><b>Invoice Date</b></p></td>
 									<td class="onbottom"><p style="font-size:16px;"><b>Invoice No</b></p></td>
 									<td class="onbottom"><p style="font-size:16px;"><b>Customer Name</b></p></td>
+									<td class="onbottom"><p style="font-size:16px;"><b>Schedule No</b></p></td>
 									<td class="onbottom"><p style="font-size:16px;"><b>Item Code</b></p></td>
 									<td class="onbottom"><p style="font-size:16px;"><b>Qty</b></p></td>
 								</tr>`
@@ -186,6 +187,9 @@ frappe.SpoolDoc = {
 								</td>
 								<td class="row_bottom">
 									<p><a href='customer/${r.customer}'>${r.customer_name}</a></p>
+								</td>
+								<td class="row_bottom">
+									<p><a>${r.schedule_no}</a></p>
 								</td>
 								<td class="row_bottom">
 									<p><a>${r.item_code}</a></p>

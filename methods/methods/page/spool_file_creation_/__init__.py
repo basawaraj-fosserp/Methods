@@ -82,7 +82,7 @@ def create_spool_file(invoices):
             )
             content = content.ljust(82)
 
-            content += "{0}".format(row.schedule_no)
+            content += "{0}{1}".format("S",row.schedule_no)
 
             content = content.ljust(98)
 
