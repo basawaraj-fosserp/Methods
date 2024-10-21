@@ -318,7 +318,7 @@ class MethodAmazonRepository:
 							"item_code": "{0}".format(self.amz_setting.promotional_discount_item),
 							"item_name": "Promotional Discount Item",
 							"description": "Promotional Discount Item",
-							"rate": flt(order_item.get("PromotionDiscount", {}).get("Amount", 0)),
+							"rate": flt(order_item.get("PromotionDiscount", {}).get("Amount", 0)) * -1,
 							"qty": 1,
 							"stock_uom": "Nos",
 							"item_tax_template" : "GST 18%"
