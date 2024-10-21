@@ -309,6 +309,16 @@ class MethodAmazonRepository:
 							"stock_uom": "Nos",
 							"item_tax_template" : "GST 18%"
 						})
+					if order_item.get("PromotionDiscount",{}).get("Amount", 0) > 0:
+						final_order_items.append({
+							"item_code": "{0}".format(self.amz_setting.promotional_discount_item),
+							"item_name": "Promotional Discount Item",
+							"description": "Promotional Discount Item",
+							"rate": flt(order_item.get("PromotionDiscount", {}).get("Amount", 0)),
+							"qty": 1,
+							"stock_uom": "Nos",
+							"item_tax_template" : "GST 18%"
+						})
 
 			if not next_token:
 				break
@@ -447,6 +457,7 @@ class MethodAmazonRepository:
 
 			so.insert(ignore_permissions=True)
 			so.submit()
+			frappe.db.commit()
 			return so.name
 
 	def get_orders(self, created_after) -> list:
