@@ -295,7 +295,6 @@ class MethodAmazonRepository:
 							"rate": flt(order_item.get("ItemPrice", {}).get("Amount", 0))/order_item.get("QuantityOrdered"),
 							"qty": order_item.get("QuantityOrdered"),
 							"stock_uom": "Nos",
-							"discount_amount" : order_item.get("PromotionDiscount",{}).get("Amount", 0),
 							"warehouse": warehouse,
 							"conversion_factor": 1.0,
 						}
