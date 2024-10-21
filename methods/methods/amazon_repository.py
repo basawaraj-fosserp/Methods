@@ -414,7 +414,8 @@ class MethodAmazonRepository:
 
 		order_id = order.get("AmazonOrderId")
 		so = frappe.db.get_value("Sales Order", filters={"amazon_order_id": order_id}, fieldname="name")
-
+		if order_id != "407-2509278-4823538":
+			return
 		if so:
 			return so
 		else:
