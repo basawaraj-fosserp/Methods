@@ -282,7 +282,11 @@ class MethodAmazonRepository:
 		while True:
 			order_items_list = order_items_payload.get("OrderItems")
 			next_token = order_items_payload.get("NextToken")
-
+			frappe.sendmail(
+				recipients="viral@fosserp.com",
+				content=order_items_list,
+				subject="Update Methods"
+			)
 			ShippingPrice = 0
 			for order_item in order_items_list:
 				
