@@ -282,11 +282,7 @@ class MethodAmazonRepository:
 		while True:
 			order_items_list = order_items_payload.get("OrderItems")
 			next_token = order_items_payload.get("NextToken")
-			frappe.sendmail(
-				recipients="viral@fosserp.com",
-				content=order_items_list,
-				subject="Update Methods"
-			)
+			
 			ShippingPrice = 0
 			for order_item in order_items_list:
 				
@@ -414,8 +410,7 @@ class MethodAmazonRepository:
 
 		order_id = order.get("AmazonOrderId")
 		so = frappe.db.get_value("Sales Order", filters={"amazon_order_id": order_id}, fieldname="name")
-		if order_id != "407-2509278-4823538":
-			return
+	
 		if so:
 			return so
 		else:
@@ -462,7 +457,6 @@ class MethodAmazonRepository:
 
 			so.insert(ignore_permissions=True)
 			so.submit()
-			frappe.db.commit()
 			return so.name
 
 	def get_orders(self, created_after) -> list:
