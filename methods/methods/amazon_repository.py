@@ -313,7 +313,7 @@ class MethodAmazonRepository:
 							"stock_uom": "Nos",
 							"item_tax_template" : "GST 18%"
 						})
-					if order_item.get("PromotionDiscount",{}).get("Amount", 0) > 0:
+					if flt(order_item.get("PromotionDiscount",{}).get("Amount", 0)) > 0:
 						final_order_items.append({
 							"item_code": "{0}".format(self.amz_setting.promotional_discount_item),
 							"item_name": "Promotional Discount Item",
