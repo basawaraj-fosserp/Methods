@@ -541,7 +541,7 @@ def get_address(customer, shipping_address):
 		state = shipping_address.get("StateOrRegion").title()
 		if state in ["Chattisgarh", "Chhattisgarh"]:
 			state = "Chhattisgarh"
-		if state == "Jammu & Kashmir":
+		if state in ["Jammu & Kashmir", "JAMMU & KASHMIR"]:
 			state == "Jammu and Kashmir"
 
 		address = frappe.db.sql(f"""
