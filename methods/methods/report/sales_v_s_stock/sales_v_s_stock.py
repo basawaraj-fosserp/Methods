@@ -42,6 +42,7 @@ def get_sold_sle_data(filters):
 
 	columns = get_columns(filters, warehouse)
 	warehouse_column = []
+	
 	for row in data:
 		warehouse_column.append(row.warehouse)
 		warehouse_qty = get_stock_balance(
