@@ -98,13 +98,6 @@ def get_columns(filters, warehouse):
 			"width" : 150
 		},
 		{
-			"fieldname": "warehouse",
-			"label": "warehouse",
-			"fieldtype": "Link",
-			"options": "Warehouse",
-			"width" : 150
-		},
-		{
 			
 			"fieldname": "actual_qty",
 			"label": "Quantity",
