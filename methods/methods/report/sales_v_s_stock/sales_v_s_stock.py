@@ -49,7 +49,8 @@ def get_sold_sle_data(filters):
 		warehouse_qty = get_stock_balance(
 							row.item_code,
 							row.warehouse,
-							posting_date = filters.get("to_date")
+							posting_date = filters.get("to_date"),
+							posting_time = "23:59:59"
 						)
 		row.update({ row.warehouse : warehouse_qty })
 
