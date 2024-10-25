@@ -59,7 +59,8 @@ def get_sold_sle_data(filters):
 				warehouse_qty = get_stock_balance(
 									row.item_code,
 									d,
-									posting_date = filters.get("to_date")
+									posting_date = filters.get("to_date"),
+									posting_time = "23:59:59"
 								)
 				if warehouse_qty:
 					if d not in warehouse_column:
