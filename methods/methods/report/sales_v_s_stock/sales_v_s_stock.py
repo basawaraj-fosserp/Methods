@@ -29,7 +29,7 @@ def get_sold_sle_data(filters):
 			From `tabStock Ledger Entry` as sle
 			Left Join `tabDelivery Note Item` as dni ON dni.parent = sle.voucher_no and sle.item_code = dni.item_code and sle.warehouse = dni.warehouse
 			left Join `tabDelivery Note Item` as dn ON dn.name = dni.parent and dn.customer != 'Methods Automotive Pvt Ltd - GGN'
-			Where sle.is_cancelled = 0  and sle.voucher_type in ('Delivery Note', 'Sales Invoice') {condition}
+			Where sle.is_cancelled = 0  and sle.voucher_type in ('Delivery Note', 'Sales Invoice') and dn.customer != 'Methods Automotive Pvt Ltd - GGN' {condition}
 			Group By sle.item_code
 			Order by sle.item_code
 		""", as_dict=1)
