@@ -5,7 +5,6 @@ from ecommerce_integrations.amazon.doctype.amazon_sp_api_settings.amazon_sp_api_
 class MethodAmazonSPAPISetting(AmazonSPAPISettings):
     @frappe.whitelist()
     def get_order_details(self):
-        frappe.throw(str("helozx"))
         from methods.methods.amazon_repository import get_orders
 
         if self.is_active == 1:
