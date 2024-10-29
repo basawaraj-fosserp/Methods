@@ -151,9 +151,9 @@ amazon_repository.get_orders = method_get_orders
 # Overriding Methods
 # ------------------------------
 #
-# override_whitelisted_methods = {
-# 	"frappe.desk.doctype.event.event.get_events": "methods.event.get_events"
-# }
+override_whitelisted_methods = {
+	"ecommerce_integrations.amazon.doctype.amazon_sp_api_settings.amazon_sp_api_settings.AmazonSPAPISettings.get_order_details": "methods.methods.amazon_sp_api_settings.MethodAmazonSPAPISetting.get_order_details"
+}
 #
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
