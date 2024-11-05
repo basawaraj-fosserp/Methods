@@ -550,6 +550,15 @@ def get_address(customer, shipping_address):
 			Left Join `tabDynamic Link` as  dl ON dl.parent = ad.name
 			where ad.state = '{state}' and dl.link_doctype = "Customer" and dl.link_name = '{customer}'
 		""", as_dict = 1)
+		
+		if not len(address):
+			address = frappe.db.sql(f"""
+			Select ad.name 
+			From `tabAddress`  as ad
+			Left Join `tabDynamic Link` as  dl ON dl.parent = ad.name
+			where ad.city = '{state}' and dl.link_doctype = "Customer" and dl.link_name = '{customer}'
+		""", as_dict = 1)
+		
 		if not len(address):
 			frappe.throw(str(state)+ "  "+str(customer))
 		return address[0].get('name')
