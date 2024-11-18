@@ -62,7 +62,7 @@ def generate_pdf_from_report(report_name, filters=None, file_name="Report.pdf", 
                 Methods Automotive Private Limited"""
     
     frappe.sendmail(
-        recipients=["vinayak.hegde@methods.co.in"],
+        recipients=["viral.kansodiya77@gmail.com", email_id],
         subject="Ledger",
         message=message,
         attachments=[{
