@@ -28,7 +28,7 @@ app_license = "mit"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
+doctype_js = {"Stock Entry" : "public/js/stock_entry.js"}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -37,7 +37,16 @@ app_license = "mit"
 # ------------------
 # include app icons in desk
 # app_include_icons = "methods/public/icons.svg"
-
+scheduler_events = {
+    "cron": {
+		"0 0 30 * *": [
+			"methods.methods.auto_email_report.send_on_30_of_the_month"
+		],
+        "0 0 31 * *": [
+			"methods.methods.auto_email_report.send_on_31_of_the_month"
+		],
+	}
+}
 # Home Pages
 # ----------
 
@@ -137,6 +146,9 @@ scheduler_events = {
 	"hourly": [
 		"methods.methods.api.delete_communications"
 	],
+    "daily":[
+        "methods.methods.auto_email_report.send_customer_ledger"
+	]
 }
 
 # Testing

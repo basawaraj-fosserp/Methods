@@ -1,0 +1,48 @@
+<style>
+    p{
+        font-size:12px;
+    }
+    th{
+        background-color : #eee !important
+    }
+    .tbspace>tr>td {
+       padding: 2px 2px 2px 5px !important;
+       margin: 0 !important;
+       border-spacing: 0 !important;
+        
+   }
+   table {
+        width:100%;
+        border-collapse: collapse;
+    }
+    .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
+        border: 1px solid #d1d8dd;
+        
+    }
+</style>
+
+<h2>{{ title }}</h2>
+<p>Company : {{ filters.company }}</p>
+<p>From Date: {{ filters.from_date }}</p>
+<p>To Date: {{ filters.to_date }}</p>
+<p>Party: {{ filters.party_name }}</p>
+<hr>
+<table width="100%" border=1 class="tbspace table table-bordered table-condensed">
+    <tr>
+        {% for row in head_columns %}
+            <th><p>{{ row }}</p></th>
+        {% endfor %}
+    </tr>
+    {% for row in data[1] %}
+    <tr>
+        <td align="left"><p>{{ row.posting_date or ''}}</p></td>
+        <td align="left" ><p>{{ row.account or '' }}</p></td>
+        <td align="right" ><p>{{ frappe.utils.fmt_money(row.debit, precision=2, currency="INR") or '' }}</p></td>
+        <td align="right" ><p>{{ frappe.utils.fmt_money(row.credit, precision=2, currency="INR")  or '' }}</p></td>
+        <td align="left"><p>{{ frappe.utils.fmt_money(row.balance, precision=2, currency="INR") or '' }}</p></td>
+        <td align="left"><p>{{ row.voucher_type or '' }}</p></td>
+        <td align="left"><p>{{ row.voucher_no or '' }}</p></td>
+        <td align="left"><p>{{ row.against or '' }}</p></td>    
+    </tr>
+    {% endfor %}
+</table>
