@@ -77,14 +77,19 @@ def generate_pdf_from_report(report_name, filters=None, file_name="Report.pdf", 
 def send_customer_ledger():
     filters = get_auto_email_report_details()
     filters = filters.update({'party_type' : 'Customer'})
-    customer_data = frappe.db.sql("""
+    cond = ''
+    if filters.get("customer_group"):
+        cond += " and cu.customer_group in {} ".format(
+                "(" + ", ".join([f'"{l}"' for l in filters.get("customer_group")]) + ")")
+    
+    customer_data = frappe.db.sql(f"""
                     Select cu.name , co.email_id as first_email 
                     From `tabCustomer` as cu
                     Left Join `tabDynamic Link` as dl ON dl.parenttype = 'Contact' and dl.link_name = cu.name and dl.link_doctype = 'Customer'
                     Left Join `tabContact` as co on dl.parent = co.name
-                    Where cu.disabled = 0
+                    Where cu.disabled = 0 and co.email_id IS NOT NULL and co.email_id != '' {cond}
             """, as_dict=1)
-    
+
     for row in customer_data:
         if row.first_email:
             filters = filters.update({
@@ -100,7 +105,11 @@ def send_customer_ledger():
 
 def get_auto_email_report_details():
     doc = frappe.get_doc("Auto Email Report","General Ledger")
+    customer_group = []
     doc.prepare_dynamic_filters()
+    for row in doc.custom_customer_group:
+        customer_group.append(row.customer_group)
+    doc.filters.update({"customer_group" : customer_group})
     return doc.filters
 
 
