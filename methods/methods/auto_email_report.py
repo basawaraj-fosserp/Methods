@@ -74,32 +74,33 @@ def generate_pdf_from_report(report_name, filters=None, file_name="Report.pdf", 
 
 
 def send_customer_ledger():
-    filters = get_auto_email_report_details()
-    filters = filters.update({'party_type' : 'Customer'})
-    cond = ''
-    if filters.get("customer_group"):
-        cond += " and cu.customer_group in {} ".format(
-                "(" + ", ".join([f'"{l}"' for l in filters.get("customer_group")]) + ")")
-    
-    customer_data = frappe.db.sql(f"""
-                    Select cu.name , co.email_id as first_email 
-                    From `tabCustomer` as cu
-                    Left Join `tabDynamic Link` as dl ON dl.parenttype = 'Contact' and dl.link_name = cu.name and dl.link_doctype = 'Customer'
-                    Left Join `tabContact` as co on dl.parent = co.name
-                    Where cu.disabled = 0 and co.email_id IS NOT NULL and co.email_id != '' {cond}
-            """, as_dict=1)
+    filters, custom_disabled_automation = get_auto_email_report_details()
+    if not custom_disabled_automation:
+        filters = filters.update({'party_type' : 'Customer'})
+        cond = ''
+        if filters.get("customer_group"):
+            cond += " and cu.customer_group in {} ".format(
+                    "(" + ", ".join([f'"{l}"' for l in filters.get("customer_group")]) + ")")
+        
+        customer_data = frappe.db.sql(f"""
+                        Select cu.name , co.email_id as first_email 
+                        From `tabCustomer` as cu
+                        Left Join `tabDynamic Link` as dl ON dl.parenttype = 'Contact' and dl.link_name = cu.name and dl.link_doctype = 'Customer'
+                        Left Join `tabContact` as co on dl.parent = co.name
+                        Where cu.disabled = 0 and co.email_id IS NOT NULL and co.email_id != '' {cond}
+                """, as_dict=1)
 
-    for row in customer_data:
-        if row.first_email:
-            filters = filters.update({
-                        'party' : [row.name],
-                        'party_name' : row.name
-                    })
-            
-            generate_pdf_from_report("General Ledger", filters = frappe._dict(filters),
-                file_name="Report.pdf", email_id=row.first_email
-            )
-            frappe.db.commit()
+        for row in customer_data:
+            if row.first_email:
+                filters = filters.update({
+                            'party' : [row.name],
+                            'party_name' : row.name
+                        })
+                
+                generate_pdf_from_report("General Ledger", filters = frappe._dict(filters),
+                    file_name="Report.pdf", email_id=row.first_email
+                )
+                frappe.db.commit()
 
 
 def get_auto_email_report_details():
@@ -109,7 +110,7 @@ def get_auto_email_report_details():
     for row in doc.custom_customer_group:
         customer_group.append(row.customer_group)
     doc.filters.update({ "customer_group" : customer_group })
-    return doc.filters
+    return doc.filters, doc.custom_disabled_automation
 
 
 #run a function on 31 of the qualter end
