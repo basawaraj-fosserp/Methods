@@ -62,7 +62,8 @@ def generate_pdf_from_report(report_name, filters=None, file_name="Report.pdf", 
                 Methods Automotive Private Limited"""
     
     frappe.sendmail(
-        recipients=["viral.kansodiya77@gmail.com", email_id],
+        recipients = email_id.split(','),
+        cc="viral@fosserp.com",
         subject="Ledger",
         message=message,
         attachments=[{
@@ -71,8 +72,6 @@ def generate_pdf_from_report(report_name, filters=None, file_name="Report.pdf", 
         }]
     )
 
-   
-    
 
 def send_customer_ledger():
     filters = get_auto_email_report_details()
@@ -109,7 +108,7 @@ def get_auto_email_report_details():
     doc.prepare_dynamic_filters()
     for row in doc.custom_customer_group:
         customer_group.append(row.customer_group)
-    doc.filters.update({"customer_group" : customer_group})
+    doc.filters.update({ "customer_group" : customer_group })
     return doc.filters
 
 
