@@ -49,10 +49,11 @@ scheduler_events = {
         "0 0 31 * *": [
 			"methods.methods.auto_email_report.send_on_31_of_the_month"
 		],
-        "hourly": [
-			"methods.methods.api.delete_communications"
-		],
-	}
+	},
+	"hourly": [
+		"methods.methods.api.delete_communications"
+	]
+	
 }
 # Home Pages
 # ----------
