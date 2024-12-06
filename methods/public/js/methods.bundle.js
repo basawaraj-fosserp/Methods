@@ -1,0 +1,1 @@
+import "./utils/barcode_scanner.js"
