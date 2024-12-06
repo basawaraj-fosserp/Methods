@@ -15,3 +15,5 @@ def delete_communications():
     print(data)
     for row in data:
         frappe.db.delete("Communication", row.get("name"))
+
+

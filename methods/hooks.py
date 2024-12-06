@@ -11,7 +11,7 @@ app_license = "mit"
 
 # include js, css files in header of desk.html
 # app_include_css = "/assets/methods/css/methods.css"
-# app_include_js = "/assets/methods/js/methods.js"
+app_include_js = "/assets/methods/js/utils/barcode_scanner.js"
 
 # include js, css files in header of web template
 # web_include_css = "/assets/methods/css/methods.css"
@@ -30,7 +30,9 @@ app_license = "mit"
 # include js in doctype views
 doctype_js = {
     "Stock Entry" : "public/js/stock_entry.js",
-    "Auto Email Report" : "public/js/auto_email_report.js"
+    "Sales Order" : "public/js/sales_order.js",
+    "Auto Email Report" : "public/js/auto_email_report.js",
+    "Delivery Note" : "public/js/delivery_note.js"
     
 	}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
