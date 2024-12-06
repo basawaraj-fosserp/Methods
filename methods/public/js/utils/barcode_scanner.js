@@ -49,7 +49,7 @@ erpnext.utils.BarcodeScanner = class BarcodeScanner {
 			if (!input) {
 				return;
 			}
-            if (!this.frm.doc.custom_sales_order_ref){
+            if (!this.frm.doc.sales_order_ref){
                 return;
             }
 			this.scan_api_call(input, (r) => {
@@ -87,7 +87,7 @@ erpnext.utils.BarcodeScanner = class BarcodeScanner {
 				frappe.call({
 					method:"methods.methods.get_so_ref",
 					args:{
-						sales_order : this.frm.doc.custom_sales_order_ref,
+						sales_order : this.frm.doc.sales_order_ref,
 						data : r.message
 					}
 				}).then((d) => {
