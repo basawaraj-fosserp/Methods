@@ -1,5 +1,6 @@
 erpnext.utils.BarcodeScanner = class BarcodeScanner {
 	constructor(opts) {
+        console.log("Enter")
 		this.frm = opts.frm;
 		// frappe.flags.trigger_from_barcode_scanner is used for custom scripts
 
