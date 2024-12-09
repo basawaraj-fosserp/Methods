@@ -4,7 +4,7 @@ from erpnext.accounts.report.general_ledger.general_ledger import get_columns, e
 import json
 from frappe.utils import flt, getdate, get_datetime
 
-def generate_pdf_from_report(report_name, filters=None, file_name="Report.pdf", email_id=None):
+def generate_pdf_from_report(report_name, filters=None, file_name="Report.pdf", email_id=None, cc=None):
     # Get the report data in HTML format
     columns = [
         "Posting Date",
@@ -63,7 +63,7 @@ def generate_pdf_from_report(report_name, filters=None, file_name="Report.pdf", 
     
     frappe.sendmail(
         recipients = email_id.split(','),
-        cc="viral@fosserp.com",
+        cc=cc.split("\n"),
         subject="Ledger",
         message=message,
         attachments=[{
@@ -74,7 +74,7 @@ def generate_pdf_from_report(report_name, filters=None, file_name="Report.pdf", 
 
 
 def send_customer_ledger():
-    filters, custom_disabled_automation = get_auto_email_report_details()
+    filters, custom_disabled_automation, cc = get_auto_email_report_details()
     if not custom_disabled_automation:
         filters = filters.update({'party_type' : 'Customer'})
         cond = ''
@@ -98,7 +98,7 @@ def send_customer_ledger():
                         })
                 
                 generate_pdf_from_report("General Ledger", filters = frappe._dict(filters),
-                    file_name="Report.pdf", email_id=row.first_email
+                    file_name="Report.pdf", email_id=row.first_email, cc=None
                 )
                 frappe.db.commit()
 
@@ -110,7 +110,7 @@ def get_auto_email_report_details():
     for row in doc.custom_customer_group:
         customer_group.append(row.customer_group)
     doc.filters.update({ "customer_group" : customer_group })
-    return doc.filters, doc.custom_disabled_automation
+    return doc.filters, doc.custom_disabled_automation, doc.email_to
 
 
 #run a function on 31 of the qualter end
