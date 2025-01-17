@@ -147,6 +147,11 @@ override_doctype_class = {
 # 		"on_trash": "method"
 # 	}
 # }
+doc_events = {
+    "Purchase Invoice": {
+        "onload" : "methods.methods.docevents.purchase_invoice.onload"
+	}
+}
 
 # Scheduled Tasks
 # ---------------
