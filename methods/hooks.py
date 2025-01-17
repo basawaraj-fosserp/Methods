@@ -150,6 +150,9 @@ override_doctype_class = {
 doc_events = {
     "Purchase Invoice": {
         "onload" : "methods.methods.docevents.purchase_invoice.onload"
+	},
+    "Bill of Entry" : {
+        "on_submit" : "methods.methods.docevents.bill_of_entry.check_quantity_overflow"
 	}
 }
 
