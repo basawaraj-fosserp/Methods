@@ -2,8 +2,10 @@ import frappe
 
 def check_pr_vs_se_qty(self, method):
     for row in self.items:
-        if row.reference_purchase_receipt:
-            return
+        if row.reference_purchase_receipt and row.pr_details:
+            pr_qty = frappe.db.get_value("Purchase Receipt Item", row.pr_details, "qty")
+            if row.qty > pr_qty:
+                  frappe.throw(f"Row #{row.idx} : Material Transfer not allow greater then purchase receipt qty")
         
 
 from frappe.model.mapper import get_mapped_doc
@@ -28,6 +30,7 @@ def make_stock_entry(source_name, target_doc=None):
 					"warehouse": "s_warehouse",
 					"parent": "reference_purchase_receipt",
 					"batch_no": "batch_no",
+                    "name" : "pr_details"
 				},
 			},
 		},
