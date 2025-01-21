@@ -1,11 +1,17 @@
 import frappe
+from frappe.utils import get_link_to_form
 
 def check_pr_vs_se_qty(self, method):
-    for row in self.items:
-        if row.reference_purchase_receipt and row.pr_details:
-            pr_qty = frappe.db.get_value("Purchase Receipt Item", row.pr_details, "qty")
-            if row.qty > pr_qty:
-                  frappe.throw(f"Row #{row.idx} : Material Transfer not allow greater then purchase receipt qty")
+    if self.stock_entry_type == "Material Transfer":
+        #Check Landed cost voucher exist or not
+        #stock transfer should not allow greater then purchase receipt
+        for row in self.items:
+            if row.reference_purchase_receipt and row.pr_details:
+                if not frappe.db.exists('Landed Cost Purchase Receipt', { "receipt_document" : row.reference_purchase_receipt, "docstatus" : 1, "parenttype": 'Landed Cost Voucher' }):
+                    frappe.throw("Landed Cost Voucher is not created against purchase receipt {0}".format(get_link_to_form("Purchase Receipt", row.reference_purchase_receipt)))
+                pr_qty = frappe.db.get_value("Purchase Receipt Item", row.pr_details, "qty")
+                if row.qty > pr_qty:
+                    frappe.throw(f"Row #{row.idx} : Material Transfer not allow greater then purchase receipt qty")
         
 
 from frappe.model.mapper import get_mapped_doc
