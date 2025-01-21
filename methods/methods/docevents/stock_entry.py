@@ -8,10 +8,10 @@ def check_pr_vs_se_qty(self, method):
         for row in self.items:
             if row.reference_purchase_receipt and row.pr_details:
                 if not frappe.db.exists('Landed Cost Purchase Receipt', { "receipt_document" : row.reference_purchase_receipt, "docstatus" : 1, "parenttype": 'Landed Cost Voucher' }):
-                    frappe.throw("Landed Cost Voucher is not created against purchase receipt {0}".format(get_link_to_form("Purchase Receipt", row.reference_purchase_receipt)))
+                    frappe.throw("Landed Cost Voucher is not submitted against purchase receipt {0}, Please submit Landed Cost Voucher to create Material transfer.".format(get_link_to_form("Purchase Receipt", row.reference_purchase_receipt)))
                 pr_qty = frappe.db.get_value("Purchase Receipt Item", row.pr_details, "qty")
                 if row.qty > pr_qty:
-                    frappe.throw(f"Row #{row.idx} : Material Transfer not allow greater then purchase receipt qty")
+                    frappe.throw(f"Row #{row.idx} : Material transfer Qty should not be greater than Purchase receipt Qty")
         
 
 from frappe.model.mapper import get_mapped_doc
