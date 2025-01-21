@@ -153,6 +153,9 @@ doc_events = {
 	},
     "Bill of Entry" : {
         "on_submit" : "methods.methods.docevents.bill_of_entry.check_quantity_overflow"
+	},
+    "Stock Entry" : {
+        "validate" : "methods.methods.docevents.stock_entry.check_pr_vs_se_qty"
 	}
 }
 
@@ -174,7 +177,8 @@ amazon_repository.get_orders = method_get_orders
 # ------------------------------
 #
 override_whitelisted_methods = {
-	"ecommerce_integrations.amazon.doctype.amazon_sp_api_settings.amazon_sp_api_settings.AmazonSPAPISettings.get_order_details": "methods.methods.amazon_sp_api_settings.MethodAmazonSPAPISetting.get_order_details"
+	"ecommerce_integrations.amazon.doctype.amazon_sp_api_settings.amazon_sp_api_settings.AmazonSPAPISettings.get_order_details": "methods.methods.amazon_sp_api_settings.MethodAmazonSPAPISetting.get_order_details",
+    "erpnext.stock.doctype.purchase_receipt.purchase_receipt.make_stock_entry" : "methods.methods.docevents.stock_entry.make_stock_entry"
 }
 #
 # each overriding function accepts a `data` argument;
