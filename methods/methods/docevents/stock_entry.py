@@ -1,5 +1,6 @@
 import frappe
 from frappe.utils import get_link_to_form
+import json
 
 def check_pr_vs_se_qty(self, method):
     if self.stock_entry_type == "Material Transfer":
@@ -7,15 +8,19 @@ def check_pr_vs_se_qty(self, method):
         #stock transfer should not allow greater then purchase receipt
         for row in self.items:
             if row.reference_purchase_receipt and row.pr_details:
-                if not frappe.db.exists('Landed Cost Purchase Receipt', { "receipt_document" : row.reference_purchase_receipt, "docstatus" : 1, "parenttype": 'Landed Cost Voucher' }):
-                    frappe.throw("Landed Cost Voucher is not submitted against purchase receipt {0}, Please submit Landed Cost Voucher to create Material transfer.".format(get_link_to_form("Purchase Receipt", row.reference_purchase_receipt)))
                 pr_qty = frappe.db.get_value("Purchase Receipt Item", row.pr_details, "qty")
                 if row.qty > pr_qty:
                     frappe.throw(f"Row #{row.idx} : Material transfer Qty should not be greater than Purchase receipt Qty")
-        
+
+@frappe.whitelist()
+def check_if_lcv(doc):
+    doc = json.loads(doc)
+    if not frappe.db.exists('Landed Cost Purchase Receipt', { "receipt_document" : doc.get("name"), "docstatus" : 1, "parenttype": 'Landed Cost Voucher' }):
+        frappe.throw("Landed Cost Voucher is not submitted against purchase receipt {0}, Please submit Landed Cost Voucher to create Material transfer.".format(get_link_to_form("Purchase Receipt", doc.get("name"))))
+    else:
+        return True
 
 from frappe.model.mapper import get_mapped_doc
-
 @frappe.whitelist()
 def make_stock_entry(source_name, target_doc=None):
 	def set_missing_values(source, target):
