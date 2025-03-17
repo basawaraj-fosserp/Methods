@@ -484,7 +484,6 @@ class MethodAmazonRepository:
 		sales_orders = []
 
 		while True:
-			frappe.throw(str(orders_payload))
 			orders_list = orders_payload.get("Orders")
 			
 			next_token = orders_payload.get("NextToken")
