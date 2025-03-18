@@ -471,7 +471,7 @@ class MethodAmazonRepository:
 			"Canceled",
 			"Unfulfillable",
 		]
-		fulfillment_channels = ["FBA", "SellerFulfilled", "MFN"]
+		fulfillment_channels = ["FBA", "SellerFulfilled", "MFN", "AFN"]
 
 		orders_payload = self.call_sp_api_method(
 			sp_api_method=orders.get_orders,
@@ -485,7 +485,6 @@ class MethodAmazonRepository:
 
 		while True:
 			orders_list = orders_payload.get("Orders")
-			
 			next_token = orders_payload.get("NextToken")
 
 			if not orders_list or len(orders_list) == 0:
