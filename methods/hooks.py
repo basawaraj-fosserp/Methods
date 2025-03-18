@@ -133,9 +133,9 @@ scheduler_events = {
 # ---------------
 # Override standard doctype classes
 
-override_doctype_class = {
-	"Amazon SP API Settings": "methods.methods.amazon_sp_api_settings.MethodAmazonSPAPISetting"
-}
+# override_doctype_class = {
+# 	"Amazon SP API Settings": "methods.methods.amazon_sp_api_settings.MethodAmazonSPAPISetting"
+# }
 
 # Document Events
 # ---------------
