@@ -168,9 +168,9 @@ doc_events = {
 # Testing
 # -------
 
-from ecommerce_integrations.amazon.doctype.amazon_sp_api_settings import amazon_repository 
-from methods.methods.amazon_repository import get_orders as method_get_orders
-amazon_repository.get_orders = method_get_orders
+# from ecommerce_integrations.amazon.doctype.amazon_sp_api_settings import amazon_repository 
+# from methods.methods.amazon_repository import get_orders as method_get_orders
+# amazon_repository.get_orders = method_get_orders
 
 # before_tests = "methods.install.before_tests"
 
@@ -178,7 +178,7 @@ amazon_repository.get_orders = method_get_orders
 # ------------------------------
 #
 override_whitelisted_methods = {
-	"ecommerce_integrations.amazon.doctype.amazon_sp_api_settings.amazon_sp_api_settings.AmazonSPAPISettings.get_order_details": "methods.methods.amazon_sp_api_settings.MethodAmazonSPAPISetting.get_order_details",
+	# "ecommerce_integrations.amazon.doctype.amazon_sp_api_settings.amazon_sp_api_settings.AmazonSPAPISettings.get_order_details": "methods.methods.amazon_sp_api_settings.MethodAmazonSPAPISetting.get_order_details",
     "erpnext.stock.doctype.purchase_receipt.purchase_receipt.make_stock_entry" : "methods.methods.docevents.stock_entry.make_stock_entry"
 }
 #
