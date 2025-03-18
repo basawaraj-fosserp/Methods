@@ -133,9 +133,9 @@ scheduler_events = {
 # ---------------
 # Override standard doctype classes
 
-# override_doctype_class = {
-# 	"Amazon SP API Settings": "methods.methods.amazon_sp_api_settings.MethodAmazonSPAPISetting"
-# }
+override_doctype_class = {
+	"Amazon SP API Settings": "methods.methods.amazon_sp_api_settings.MethodAmazonSPAPISetting"
+}
 
 # Document Events
 # ---------------
@@ -178,7 +178,7 @@ doc_events = {
 # ------------------------------
 #
 override_whitelisted_methods = {
-	# "ecommerce_integrations.amazon.doctype.amazon_sp_api_settings.amazon_sp_api_settings.AmazonSPAPISettings.get_order_details": "methods.methods.amazon_sp_api_settings.MethodAmazonSPAPISetting.get_order_details",
+	"ecommerce_integrations.amazon.doctype.amazon_sp_api_settings.amazon_sp_api_settings.AmazonSPAPISettings.get_order_details": "methods.methods.amazon_sp_api_settings.MethodAmazonSPAPISetting.get_order_details",
     "erpnext.stock.doctype.purchase_receipt.purchase_receipt.make_stock_entry" : "methods.methods.docevents.stock_entry.make_stock_entry"
 }
 #
