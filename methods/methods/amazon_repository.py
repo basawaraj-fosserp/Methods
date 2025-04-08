@@ -250,7 +250,7 @@ class MethodAmazonRepository:
 					filters={field_map.item_field: order_item[field_map.amazon_field]},
 					fieldname="item_code",
 				)
-				
+
 				if item_code:
 					return item_code
 				elif not self.amz_setting.create_item_if_not_exists:
@@ -275,7 +275,7 @@ class MethodAmazonRepository:
 		order_items_payload = self.call_sp_api_method(
 			sp_api_method=orders.get_order_items, order_id=order_id
 		)
-
+		frappe.throw(str(order_items_payload))
 		final_order_items = []
 		warehouse = self.amz_setting.warehouse
 
@@ -285,7 +285,6 @@ class MethodAmazonRepository:
 			
 			ShippingPrice = 0
 			for order_item in order_items_list:
-				
 				if order_item.get("QuantityOrdered") > 0:
 					final_order_items.append(
 						{
@@ -410,7 +409,7 @@ class MethodAmazonRepository:
 
 		order_id = order.get("AmazonOrderId")
 		so = frappe.db.get_value("Sales Order", filters={"amazon_order_id": order_id}, fieldname="name")
-	
+
 		if so:
 			return so
 		else:
@@ -457,6 +456,7 @@ class MethodAmazonRepository:
 
 			so.insert(ignore_permissions=True)
 			so.submit()
+
 			return so.name
 
 	def get_orders(self, created_after) -> list:
