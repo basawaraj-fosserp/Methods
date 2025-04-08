@@ -471,7 +471,7 @@ class MethodAmazonRepository:
 			"Canceled",
 			"Unfulfillable",
 		]
-		fulfillment_channels = ["FBA", "SellerFulfilled"]
+		fulfillment_channels = ["FBA", "SellerFulfilled", "MFN", "AFN"]
 
 		orders_payload = self.call_sp_api_method(
 			sp_api_method=orders.get_orders,
