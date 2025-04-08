@@ -275,7 +275,8 @@ class MethodAmazonRepository:
 		order_items_payload = self.call_sp_api_method(
 			sp_api_method=orders.get_order_items, order_id=order_id
 		)
-		frappe.throw(str(order_items_payload))
+		if not order_items_payload:
+			return 
 		final_order_items = []
 		warehouse = self.amz_setting.warehouse
 
@@ -471,7 +472,7 @@ class MethodAmazonRepository:
 			"Canceled",
 			"Unfulfillable",
 		]
-		fulfillment_channels = ["FBA", "SellerFulfilled", "MFN", "AFN"]
+		fulfillment_channels = ["FBA", "SellerFulfilled"]
 
 		orders_payload = self.call_sp_api_method(
 			sp_api_method=orders.get_orders,
