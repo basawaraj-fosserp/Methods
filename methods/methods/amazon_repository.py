@@ -277,7 +277,7 @@ class MethodAmazonRepository:
 		)
 		final_order_items = []
 		warehouse = self.amz_setting.warehouse
-
+		next_token = None
 		while True:
 			if order_items_payload:
 				order_items_list = order_items_payload.get("OrderItems")
