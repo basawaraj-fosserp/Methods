@@ -275,50 +275,49 @@ class MethodAmazonRepository:
 		order_items_payload = self.call_sp_api_method(
 			sp_api_method=orders.get_order_items, order_id=order_id
 		)
-		if not order_items_payload:
-			return 
 		final_order_items = []
 		warehouse = self.amz_setting.warehouse
 
 		while True:
-			order_items_list = order_items_payload.get("OrderItems")
-			next_token = order_items_payload.get("NextToken")
-			
-			ShippingPrice = 0
-			for order_item in order_items_list:
-				if order_item.get("QuantityOrdered") > 0:
-					final_order_items.append(
-						{
-							"item_code": self.get_item_code(order_item),
-							"item_name": order_item.get("SellerSKU"),
-							"description": order_item.get("Title"),
-							"rate": flt(order_item.get("ItemPrice", {}).get("Amount", 0))/order_item.get("QuantityOrdered"),
-							"qty": order_item.get("QuantityOrdered"),
-							"stock_uom": "Nos",
-							"warehouse": warehouse,
-							"conversion_factor": 1.0,
-						}
-					)
-					if flt(order_item.get("ShippingPrice", {}).get("Amount", 0)) > 0:
-						final_order_items.append({
-							"item_code": "{0}".format(self.amz_setting.delivery_service),
-							"item_name": "Amazon Delivery service",
-							"description": "Amazon Delivery service",
-							"rate": flt(order_item.get("ShippingPrice", {}).get("Amount", 0)),
-							"qty": 1,
-							"stock_uom": "Nos",
-							"item_tax_template" : "GST 18%"
-						})
-					if flt(order_item.get("PromotionDiscount",{}).get("Amount", 0)) > 0:
-						final_order_items.append({
-							"item_code": "{0}".format(self.amz_setting.promotional_discount_item),
-							"item_name": "Promotional Discount Item",
-							"description": "Promotional Discount Item",
-							"rate": flt(order_item.get("PromotionDiscount", {}).get("Amount", 0)) * -1,
-							"qty": 1,
-							"stock_uom": "Nos",
-							"item_tax_template" : "GST 18%"
-						})
+			if order_items_payload:
+				order_items_list = order_items_payload.get("OrderItems")
+				next_token = order_items_payload.get("NextToken")
+				
+				ShippingPrice = 0
+				for order_item in order_items_list:
+					if order_item.get("QuantityOrdered") > 0:
+						final_order_items.append(
+							{
+								"item_code": self.get_item_code(order_item),
+								"item_name": order_item.get("SellerSKU"),
+								"description": order_item.get("Title"),
+								"rate": flt(order_item.get("ItemPrice", {}).get("Amount", 0))/order_item.get("QuantityOrdered"),
+								"qty": order_item.get("QuantityOrdered"),
+								"stock_uom": "Nos",
+								"warehouse": warehouse,
+								"conversion_factor": 1.0,
+							}
+						)
+						if flt(order_item.get("ShippingPrice", {}).get("Amount", 0)) > 0:
+							final_order_items.append({
+								"item_code": "{0}".format(self.amz_setting.delivery_service),
+								"item_name": "Amazon Delivery service",
+								"description": "Amazon Delivery service",
+								"rate": flt(order_item.get("ShippingPrice", {}).get("Amount", 0)),
+								"qty": 1,
+								"stock_uom": "Nos",
+								"item_tax_template" : "GST 18%"
+							})
+						if flt(order_item.get("PromotionDiscount",{}).get("Amount", 0)) > 0:
+							final_order_items.append({
+								"item_code": "{0}".format(self.amz_setting.promotional_discount_item),
+								"item_name": "Promotional Discount Item",
+								"description": "Promotional Discount Item",
+								"rate": flt(order_item.get("PromotionDiscount", {}).get("Amount", 0)) * -1,
+								"qty": 1,
+								"stock_uom": "Nos",
+								"item_tax_template" : "GST 18%"
+							})
 
 			if not next_token:
 				break
