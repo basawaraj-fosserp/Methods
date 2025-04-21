@@ -40,6 +40,7 @@ def get_permission_query_conditions(user):
 
 
 def has_permission(doc, user):
+    return True
     if frappe.db.exists("User Permission", { "allow" : user, "for_value": "Supplier" }):
         allowed_suppliers =  frappe.db.get_all("User Permission", {
             "allow" : "Suppluer",
