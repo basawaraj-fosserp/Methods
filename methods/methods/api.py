@@ -31,7 +31,7 @@ def get_permission_query_conditions(user):
     }, pluck="for_value")
 
     if not allowed_suppliers:
-        return "1=0"  # Don't show anything if no access
+        return ""  # Don't show anything if no access
 
     suppliers_str = "', '".join(allowed_suppliers)
     return f"""(
