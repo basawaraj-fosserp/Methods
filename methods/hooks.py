@@ -121,13 +121,13 @@ scheduler_events = {
 # -----------
 # Permissions evaluated in scripted ways
 
-# permission_query_conditions = {
-# 	"Event": "frappe.desk.doctype.event.event.get_permission_query_conditions",
-# }
-#
-has_permission = {
-	"Payment Entry": "methods.methods.api.has_permission_controller",
+permission_query_conditions = {
+	"Payment Entry": "methods.methods.api.get_permission_query_conditions",
 }
+#
+# has_permission = {
+# 	"Payment Entry": "methods.methods.api.has_permission_controller",
+# }
 
 # DocType Class
 # ---------------
