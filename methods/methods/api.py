@@ -18,7 +18,7 @@ def delete_communications():
 
 
 
-def has_permission_controller(doc, ptype, user):
+def has_permission_controller(doc, user):
     if frappe.db.exists("User Permission", {"allow" : "Supplier"}):
         allowed_suppliers = frappe.get_all("User Permission", filters={
             "user": user,
