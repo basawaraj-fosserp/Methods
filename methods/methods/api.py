@@ -40,4 +40,4 @@ def get_permission_query_conditions(user):
 
 
 def has_permission(doc, user):
-    return False
+    frappe.throw(str(user))
