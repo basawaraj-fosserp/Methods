@@ -38,3 +38,6 @@ def get_permission_query_conditions(user):
         party_type = 'Supplier' AND party IN ('{suppliers_str}')
     )"""
 
+
+def has_permission(doc, user):
+    return True

@@ -125,9 +125,9 @@ permission_query_conditions = {
 	"Payment Entry": "methods.methods.api.get_permission_query_conditions",
 }
 #
-# has_permission = {
-# 	"Payment Entry": "methods.methods.api.has_permission_controller",
-# }
+has_permission = {
+	"Payment Entry": "methods.methods.api.has_permission",
+}
 
 # DocType Class
 # ---------------
