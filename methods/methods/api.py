@@ -29,4 +29,4 @@ def has_permission_controller(doc, ptype, user):
             return False
         else:
             return True
-    return True
+    return False
