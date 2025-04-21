@@ -468,6 +468,7 @@ class MethodAmazonRepository:
 			"PartiallyShipped",
 			"Shipped",
 			"InvoiceUnconfirmed",
+			"Canceled",
 			"Unfulfillable",
 		]
 		fulfillment_channels = ["FBA", "SellerFulfilled"]
