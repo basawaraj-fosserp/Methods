@@ -40,7 +40,6 @@ def get_permission_query_conditions(user):
 
 
 def has_permission(doc, user):
-    return True
     if frappe.db.exists("User Permission", { "allow" : user, "for_value": "Supplier" }):
         allowed_suppliers =  frappe.db.get_all("User Permission", {
             "allow" : "Suppluer",
@@ -48,6 +47,20 @@ def has_permission(doc, user):
          }, pluck="for_value")
         
         if doc.party in allowed_suppliers:
+            return True
+        else:
+            return False
+    else:
+        return True
+
+def has_permission_supplier(doc, user):
+    if frappe.db.exists("User Permission", { "allow" : user, "for_value": "Supplier" }):
+        allowed_suppliers =  frappe.db.get_all("User Permission", {
+            "allow" : "Suppluer",
+            "user" : user
+         }, pluck="for_value")
+        
+        if doc.name in allowed_suppliers:
             return True
         else:
             return False
