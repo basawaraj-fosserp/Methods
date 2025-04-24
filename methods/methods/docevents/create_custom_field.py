@@ -66,7 +66,7 @@ def setup_custom_fields():
 				fieldname="bill_of_entry_type",
 				label="Bill Of Entry Type",
 				fieldtype="Select",
-				options= ["", "H-Home Consumption", "W - Warehouse", "X - Debond"]
+				options= "\nH-Home Consumption\nW - Warehouse\nX - Debond"
 			),
 		],
 	}
