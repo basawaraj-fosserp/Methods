@@ -9,14 +9,7 @@ def setup_custom_fields():
 				fieldname="amount",
 				label="Amount",
 				fieldtype="Currency"
-			),
-			dict(
-				fieldname="posting_date",
-				label="Posting Date",
-				fieldtype="Select",
-				options= ["", "H-Home C"]
-			),
-
+			)
 		],
 		"Item": [
 			dict(
@@ -68,6 +61,12 @@ def setup_custom_fields():
 				label="",
 				fieldtype="Section Break",
                 insert_after="insurance"
+			),
+			dict(
+				fieldname="bill_of_entry_type",
+				label="Bill Of Entry Type",
+				fieldtype="Select",
+				options= ["", "H-Home Consumption", "W - Warehouse", "X - Debond"]
 			),
 		],
 	}
