@@ -33,7 +33,8 @@ doctype_js = {
     "Sales Order" : "public/js/sales_order.js",
     "Auto Email Report" : "public/js/auto_email_report.js",
     "Delivery Note" : "public/js/delivery_note.js",
-    "Purchase Receipt" : "public/js/purchase_receipt.js"
+    "Purchase Receipt" : "public/js/purchase_receipt.js",
+	"Bill of Entry" : "public/js/bill_of_entry.js"
 	}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
@@ -203,7 +204,7 @@ override_whitelisted_methods = {
 # ----------------
 # before_request = ["methods.utils.before_request"]
 # after_request = ["methods.utils.after_request"]
-
+after_migrate = "methods.methods.docevents.create_custom_field.setup_custom_fields"
 # Job Events
 # ----------
 # before_job = ["methods.utils.before_job"]
