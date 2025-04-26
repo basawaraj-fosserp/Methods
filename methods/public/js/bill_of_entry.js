@@ -7,10 +7,8 @@ frappe.ui.form.on("Bill of Entry", {
         let freight = frm.doc.freight || 0
         let custom_exchange_rate = frm.doc.custom_exchange_rate || 0
         let insurance = 0
-        if(frm.doc.insurance){
-            let insurance = frm.doc.insurance/100 
-        }else{
-            
+        if(flt(frm.doc.insurance)){
+            insurance = frm.doc.insurance/100 
         }
 
         frm.doc.items.forEach(e => {
@@ -46,10 +44,9 @@ frappe.ui.form.on("Bill of Entry Item", {
     calculate_assessable_value : (frm) =>{
         let freight = frm.doc.freight || 0
         let custom_exchange_rate = frm.doc.custom_exchange_rate || 0
-        if(frm.doc.insurance){
-            let insurance = frm.doc.insurance/100 
-        }else{
-            let insurance = 0
+        let insurance = 0
+        if(flt(frm.doc.insurance)){
+            insurance = frm.doc.insurance/100 
         }
 
         frm.doc.items.forEach(e => {
