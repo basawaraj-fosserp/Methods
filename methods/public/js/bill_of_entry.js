@@ -12,8 +12,10 @@ frappe.ui.form.on("Bill of Entry", {
             assessable_value = (e.qty * e.rate * custom_exchange_rate) + freight + (e.qty * e.rate * custom_exchange_rate * insurance)
             frappe.model.set_value(e.doctype, e.name, "assessable_value", assessable_value)
             frappe.model.get_value("Item", e.item_code, "duty_and_charges", r=>{
-                let custom_duty  = assessable_value * r.duty_and_charges /100
-                frappe.model.set_value(e.doctype, e.name, "customs_duty",  custom_duty)
+                if(r.duty_and_charges){
+                    let custom_duty  = assessable_value * r.duty_and_charges /100
+                    frappe.model.set_value(e.doctype, e.name, "customs_duty", custom_duty)
+                }
             })
             frm.refresh_field("items")
         });
@@ -44,8 +46,10 @@ frappe.ui.form.on("Bill of Entry Item", {
             assessable_value = (e.qty * e.rate * custom_exchange_rate) + freight + (e.qty * e.rate * custom_exchange_rate * insurance)
             frappe.model.set_value(e.doctype, e.name, "assessable_value", assessable_value)
             frappe.model.get_value("Item", e.item_code, "duty_and_charges", r=>{
-                let custom_duty  = assessable_value * r.duty_and_charges /100
-                frappe.model.set_value(e.doctype, e.name, "customs_duty", custom_duty)
+                if(r.duty_and_charges){
+                    let custom_duty  = assessable_value * r.duty_and_charges /100
+                    frappe.model.set_value(e.doctype, e.name, "customs_duty", custom_duty)
+                }
             })
             frm.refresh_field("items")
         });
