@@ -12,7 +12,7 @@ def setup_custom_fields():
 			),
 			dict(
 				fieldname="rate",
-				label="rate",
+				label="Rate",
 				fieldtype="Currency"
 			)
 		],
