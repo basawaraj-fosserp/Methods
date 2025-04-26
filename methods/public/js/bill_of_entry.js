@@ -4,9 +4,13 @@ frappe.ui.form.on("Bill of Entry", {
         frm.trigger("calculate_assessable_value")        
     },
     calculate_assessable_value : (frm) =>{
-        let freight = frm.doc.freight
-        let custom_exchange_rate = frm.doc.custom_exchange_rate
-        let insurance = frm.doc.insurance/100
+        let freight = frm.doc.freight || 0
+        let custom_exchange_rate = frm.doc.custom_exchange_rate || 0
+        if(frm.doc.insurance){
+            let insurance = frm.doc.insurance/100 
+        }else{
+            let insurance = 0
+        }
 
         frm.doc.items.forEach(e => {
             assessable_value = (e.qty * e.rate * custom_exchange_rate) + freight + (e.qty * e.rate * custom_exchange_rate * insurance)
@@ -39,9 +43,13 @@ frappe.ui.form.on("Bill of Entry Item", {
         frm.trigger("calculate_assessable_value")
     },
     calculate_assessable_value : (frm) =>{
-        let freight = frm.doc.freight
-        let custom_exchange_rate = frm.doc.custom_exchange_rate
-        let insurance = frm.doc.insurance/100
+        let freight = frm.doc.freight || 0
+        let custom_exchange_rate = frm.doc.custom_exchange_rate || 0
+        if(frm.doc.insurance){
+            let insurance = frm.doc.insurance/100 
+        }else{
+            let insurance = 0
+        }
 
         frm.doc.items.forEach(e => {
             console.log(r.duty_and_charges)
