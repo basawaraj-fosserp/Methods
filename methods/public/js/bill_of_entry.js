@@ -48,6 +48,8 @@ function calculate_assessable_value(frm){
 
         frappe.model.get_value("Item", e.item_code, "duty_and_charges", r=>{
             if(r.duty_and_charges){
+                console.log(e.duty_and_charges)
+                console.log(assessable_value)
                 let custom_duty  = assessable_value * r.duty_and_charges /100
                 frappe.model.set_value(e.doctype, e.name, "customs_duty", custom_duty)
             }
