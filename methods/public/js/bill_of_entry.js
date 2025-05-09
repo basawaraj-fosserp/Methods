@@ -39,6 +39,7 @@ function calculate_assessable_value(frm){
         total_assessable_value += e.assessable_value
     })
     let assessable_value = 0;
+    let custom_duty =0;
     frm.doc.items.forEach(e => {
         percentage_of_amount = e.assessable_value * 100 / total_assessable_value
         devided_freight = percentage_of_amount * freight / 100 || 0
@@ -50,7 +51,7 @@ function calculate_assessable_value(frm){
             if(r.duty_and_charges){
                 console.log(e.duty_and_charges)
                 console.log(assessable_value)
-                let custom_duty  = assessable_value * r.duty_and_charges /100
+                custom_duty  = assessable_value * r.duty_and_charges /100
                 frappe.model.set_value(e.doctype, e.name, "customs_duty", custom_duty)
             }
         })
