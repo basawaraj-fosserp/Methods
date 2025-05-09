@@ -38,7 +38,7 @@ function calculate_assessable_value(frm){
     frm.doc.items.forEach(e => {
         total_assessable_value += e.assessable_value
     })
-
+    let assessable_value = 0;
     frm.doc.items.forEach(e => {
         percentage_of_amount = e.assessable_value * 100 / total_assessable_value
         devided_freight = percentage_of_amount * freight / 100 || 0
