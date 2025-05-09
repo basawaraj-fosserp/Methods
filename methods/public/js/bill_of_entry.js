@@ -43,6 +43,7 @@ function calculate_assessable_value(frm){
         percentage_of_amount = e.assessable_value * 100 / total_assessable_value
         devided_freight = percentage_of_amount * freight / 100 || 0
         assessable_value = (e.qty * e.rate * custom_exchange_rate) + devided_freight + (e.qty * e.rate * custom_exchange_rate * insurance)
+        console.log(assessable_value)
         frappe.model.set_value(e.doctype, e.name, "assessable_value", assessable_value)
 
         frappe.model.get_value("Item", e.item_code, "duty_and_charges", r=>{
