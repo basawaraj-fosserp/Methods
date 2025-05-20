@@ -47,6 +47,7 @@ def get_pi_items(purchase_invoices):
             pi_item.uom,
             pi_item.qty,
             pi_item.amount,
+            pi_item.rate,
             pi_item.cost_center,
             pi_item.item_tax_template,
             pi_item.gst_treatment,
