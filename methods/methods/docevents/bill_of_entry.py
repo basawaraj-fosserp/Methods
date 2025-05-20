@@ -17,6 +17,7 @@ from india_compliance.gst_india.doctype.bill_of_entry.bill_of_entry import Billo
 class CustomBillofEntry(BillofEntry):
     @frappe.whitelist()
     def get_items_from_purchase_invoice(self, purchase_invoices):
+        frappe.msgprint("hhhh")
         frappe.has_permission("Bill Of Entry", "write")
         frappe.has_permission("Purchase Invoice", "read")
 
