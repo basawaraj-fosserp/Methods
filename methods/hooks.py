@@ -136,7 +136,6 @@ has_permission = {
 
 override_doctype_class = {
 	"Amazon SP API Settings": "methods.methods.amazon_sp_api_settings.MethodAmazonSPAPISetting",
-    "Bill of Entry" : "methods.methods.docevents.bill_of_entry.CustomBillofEntry"
 }
 
 # Document Events
