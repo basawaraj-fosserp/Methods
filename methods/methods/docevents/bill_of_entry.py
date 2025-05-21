@@ -12,26 +12,25 @@ def check_quantity_overflow(self, method):
 
 
 
-from india_compliance.gst_india.doctype.bill_of_entry.bill_of_entry import  set_missing_values
+from india_compliance.gst_india.doctype.bill_of_entry.bill_of_entry import  set_missing_values, BillofEntry
+class CustomBillofEntry(BillofEntry):
+    @frappe.whitelist()
+    def get_items_from_purchase_invoice(self, purchase_invoices):
+        frappe.has_permission("Bill Of Entry", "write")
+        frappe.has_permission("Purchase Invoice", "read")
+        existing_items = [
+            item.pi_detail for item in self.get("items") if item.pi_detail
+        ]
+        item_to_add = get_pi_items(purchase_invoices)
 
-@frappe.whitelist()
-def get_items_from_purchase_invoice(self, purchase_invoices):
-    frappe.has_permission("Bill Of Entry", "write")
-    frappe.has_permission("Purchase Invoice", "read")
-    frappe.throw("hello")
-    existing_items = [
-        item.pi_detail for item in self.get("items") if item.pi_detail
-    ]
-    item_to_add = get_pi_items(purchase_invoices)
+        if not existing_items:
+            self.items = []
 
-    if not existing_items:
-        self.items = []
+        for item in item_to_add:
+            if item.pi_detail not in existing_items:
+                self.append("items", {**item})
 
-    for item in item_to_add:
-        if item.pi_detail not in existing_items:
-            self.append("items", {**item})
-
-    set_missing_values(self)
+        set_missing_values(self)
 
 def get_pi_items(purchase_invoices):
     pi_item = frappe.qb.DocType("Purchase Invoice Item")
