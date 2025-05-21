@@ -13,11 +13,13 @@ def check_quantity_overflow(self, method):
 
 
 from india_compliance.gst_india.doctype.bill_of_entry.bill_of_entry import  set_missing_values, BillofEntry
+
 class CustomBillofEntry(BillofEntry):
     @frappe.whitelist()
     def get_items_from_purchase_invoice(self, purchase_invoices):
         frappe.has_permission("Bill Of Entry", "write")
         frappe.has_permission("Purchase Invoice", "read")
+        frappe.throw(str("Hhhhhhh"))
         existing_items = [
             item.pi_detail for item in self.get("items") if item.pi_detail
         ]
