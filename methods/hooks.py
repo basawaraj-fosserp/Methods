@@ -204,7 +204,7 @@ override_whitelisted_methods = {
 # ----------------
 # before_request = ["methods.utils.before_request"]
 # after_request = ["methods.utils.after_request"]
-
+after_migrate ="methods.methods.docevents.create_custom_field.setup_custom_fields"
 # Job Events
 # ----------
 # before_job = ["methods.utils.before_job"]

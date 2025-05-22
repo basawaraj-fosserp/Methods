@@ -1,4 +1,5 @@
 import frappe
+import json
 
 def check_quantity_overflow(self, method):
     for row in self.items:
@@ -11,52 +12,16 @@ def check_quantity_overflow(self, method):
 
 
 
-
-from india_compliance.gst_india.doctype.bill_of_entry.bill_of_entry import  set_missing_values, BillofEntry
-
-class CustomBillofEntry(BillofEntry):
-    @frappe.whitelist()
-    def get_items_from_purchase_invoice(self, purchase_invoices):
-        frappe.has_permission("Bill Of Entry", "write")
-        frappe.has_permission("Purchase Invoice", "read")
-        frappe.throw(str("Hhhhhhh"))
-        existing_items = [
-            item.pi_detail for item in self.get("items") if item.pi_detail
-        ]
-        item_to_add = get_pi_items(purchase_invoices)
-
-        if not existing_items:
-            self.items = []
-
-        for item in item_to_add:
-            if item.pi_detail not in existing_items:
-                self.append("items", {**item})
-
-        set_missing_values(self)
-
-def get_pi_items(purchase_invoices):
-    pi_item = frappe.qb.DocType("Purchase Invoice Item")
-
-    return (
-        frappe.qb.from_(pi_item)
-        .select(
-            pi_item.item_code,
-            pi_item.item_name,
-            pi_item.parent.as_("purchase_invoice"),
-            pi_item.pending_boe_qty.as_("qty"),
-            pi_item.uom,
-            pi_item.qty,
-            pi_item.amount,
-            pi_item.rate,
-            pi_item.cost_center,
-            pi_item.item_tax_template,
-            pi_item.gst_treatment,
-            pi_item.taxable_value.as_("assessable_value"),
-            pi_item.taxable_value,
-            pi_item.project,
-            pi_item.name.as_("pi_detail"),
-        )
-        .where(pi_item.parent.isin(purchase_invoices))
-        .where(pi_item.pending_boe_qty > 0)
-        .run(as_dict=True)
-    )
+@frappe.whitelist()
+def recalculate_the_table(doc):
+    doc = frappe._dict(json.loads(doc))
+    for row in doc.get("items"):
+        if not ( row.get("rate") or row.get("amount") ):
+            data = frappe.db.sql(f"""
+                    Select rate, amount , base_net_amount as assessable_value
+                    From `tabPurchase Invoice Item`
+                    where name = '{row.get("pi_detail")}'
+                """, as_dict=1)
+            row.update(data[0])
+    return doc
+            

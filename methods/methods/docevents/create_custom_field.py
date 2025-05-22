@@ -66,6 +66,12 @@ def setup_custom_fields():
 				label="",
 				fieldtype="Section Break",
                 insert_after="insurance"
+			),
+			 dict(
+				fieldname="update_calculation",
+				label="Update Calculation",
+				fieldtype="Button",
+                insert_after="get_items_from_purchase_invoice"
 			)
 		],
 	}
