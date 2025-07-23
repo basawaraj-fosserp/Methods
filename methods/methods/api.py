@@ -66,3 +66,13 @@ def has_permission_supplier(doc, user):
             return False
     else:
         return True
+
+
+
+# update account settings clossing date 
+def set_clossing_date():
+    date = frappe.db.get_single_value("Accounts Settings", "acc_frozen_upto")
+    date = frappe.utils.getdate(date)
+    next_date = frappe.utils.add_days(str(date), 1)
+    print(next_date)
+    frappe.db.set_value("Accounts Settings", "Accounts Settings", "acc_frozen_upto", next_date)

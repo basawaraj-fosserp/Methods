@@ -54,6 +54,9 @@ scheduler_events = {
 	},
 	"hourly": [
 		"methods.methods.api.delete_communications"
+	],
+	"daily": [
+		"methods.methods.api.set_clossing_date"
 	]
 	
 }
