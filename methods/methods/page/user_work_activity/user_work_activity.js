@@ -33,6 +33,7 @@ frappe.UserActivity = {
 								td {
 									/* Add a background color to prevent content behind from showing through */
 									background-color: #fff; 
+									margin-top:2px;
 								}
 								.freeze-column {
 									position: sticky;
@@ -50,18 +51,21 @@ frappe.UserActivity = {
 									table-layout: fixed;
 									width: 100%;
 								}
+								p {
+  									margin: 3px 3px 3px 3px;
+								}
 							</style>
 								<div style="overflow-x: auto; width: 100%;" class="table-container">
-								<table class="table" border="1" 
+								<table border="1" 
 									style="min-width: 800px; border-collapse: collapse; table-layout: fixed; width: 100%;">
 									<tr>
-										<th class="freeze-column" style="width: 200px; background-color: #81888aff; border-right:2px solid black;">Accounting Voucher</th>
-										<th style="width: 80px; text-align:center;" background-color: #c6f3ffff>Count</th>
-										<th style="width: 140px; text-align:center;" background-color: #c6f3ffff>Value</th>
+										<th class="freeze-column" style="width: 160px; background-color: #81888aff; border-right:2px solid black;"><p>Accounting Voucher<p/></th>
+										<th style="width: 60px; text-align:center;" background-color: #c6f3ffff><p>Count</p></th>
+										<th style="width: 140px; text-align:center;" background-color: #c6f3ffff><p>Value</p></th>
 													`
 				
 							r.message.user_list.forEach(e=>{
-								html+=`<th style="width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" background-color: #c6f3ffff><p align="center" >${e}</p></th>`
+								html+=`<th style="width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" background-color: #c6f3ffff><p align="center" >${e}</p></th>`
 							})
 				html += `</tr>`
 
@@ -75,16 +79,15 @@ frappe.UserActivity = {
 					html += `<tr>`
 					if(e == 'Payment Entry Pay'){
 						html += `
-									<td class="freeze-column" width="40px;" style="border-right:2px solid black;"><p align="right">Pay</p></td>`
+									<td class="freeze-column" width="40px;" style="border-right:2px solid black;"><p align="left" style="margin-left:20px;">Pay</p></td>`
 					}else if (e == 'Payment Entry Receive'){
 						html += `
-									<td class="freeze-column" width="40px;" style="border-right:2px solid black;"><p align="right">Receive</p></td>`
+									<td class="freeze-column" width="40px;" style="border-right:2px solid black;"><p align="left" style="margin-left:20px;">Receive</p></td>`
 					}else if (e == "Payment Entry Internal Transfer"){
 						html += `
-									<td class="freeze-column" width="40px;" style="border-right:2px solid black;"><p align="right">Internal Transfer</p></td>`
+									<td class="freeze-column" width="40px;" style="border-right:2px solid black;"><p align="left" style="margin-left:20px;">Internal Transfer</p></td>`
 					}else{
-						html += `
-									<td class="freeze-column" width="40px;" style="border-right:2px solid black;"><p>${e}</p></td>`
+						html += `<td class="freeze-column" width="40px;" style="border-right:2px solid black;"><p>${e}</p></td>`
 					}
 
 					html += `
@@ -95,6 +98,20 @@ frappe.UserActivity = {
 					`
 					r.message.user_list.forEach(user => {
 						if (r.message.data[e][user]) {
+							let payment_type = null
+							const doc_type = e
+							if (e == "Payment Entry Pay"){
+								e = "Payment Entry"
+								payment_type = "Pay"
+							}
+							if (e == "Payment Entry Receive"){
+								e = "Payment Entry"
+								payment_type = "Receive"
+							}
+							if (e == "Payment Entry Internal Transfer"){
+								e = "Payment Entry"
+								payment_type = "Internal Transfer"
+							}
 							html += `<td style="background-color: #82d4f5ff;">
 										<div class="user-record"
 											style="
@@ -111,8 +128,10 @@ frappe.UserActivity = {
 											data-todate="${to_date}" 
 											data-user="${r.message.data[e][user].owner}" 
 											data-doctype ="${e}"
-										>
-											<p style="margin: 0; color: #333; font-weight: bold;">${r.message.data[e][user][user]}</p>
+											data-paymenttype = "${payment_type}"
+										>`
+							html += `
+											<p style="margin: 0; color: #333; font-weight: bold;">${r.message.data[doc_type][user][user]}</p>
 										</div>
 									</td>`;
 						} else {
@@ -133,7 +152,14 @@ frappe.UserActivity = {
 						const toDate = this.dataset.todate;
 						const user = this.dataset.user;
 						const doctype = this.dataset.doctype;
-						const url = `/app/${frappe.router.slug(doctype)}?creation=%5B%22Between%22%2C%5B%22${encodeURIComponent(fromDate)}%22%2C%22${encodeURIComponent(toDate)}%22%5D%5D&owner=${encodeURIComponent(user)}`;
+						const payment_type = this.dataset.paymenttype
+						let url = null
+
+						if(!payment_type || payment_type == '' || payment_type == null){
+							url = `/app/${frappe.router.slug(doctype)}?creation=%5B%22Between%22%2C%5B%22${encodeURIComponent(fromDate)}%22%2C%22${encodeURIComponent(toDate)}%22%5D%5D&owner=${encodeURIComponent(user)}`;
+						}else{
+							url = `/app/${frappe.router.slug(doctype)}?creation=%5B%22Between%22%2C%5B%22${encodeURIComponent(fromDate)}%22%2C%22${encodeURIComponent(toDate)}%22%5D%5D&owner=${encodeURIComponent(user)}&payment_type=${payment_type}`;
+						}
         
         				window.open(frappe.urllib.get_full_url(url));
 					});
