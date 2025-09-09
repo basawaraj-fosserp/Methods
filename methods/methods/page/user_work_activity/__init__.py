@@ -69,7 +69,7 @@ def get_doctype_data(from_date, to_date):
         count += row.number_of_document
         row.update({
             frappe.db.get_value("User", row.owner, "full_name") : row.number_of_document,
-            "doctype" : "Payment Entry"
+            "doctype" : "Sales Invoice"
         })
         if frappe.db.get_value("User", row.owner, "full_name") not in user_list:
             user_list.append(frappe.db.get_value("User", row.owner, "full_name"))
@@ -127,7 +127,7 @@ def get_doctype_data(from_date, to_date):
                 payment_type
             FROM `tabPayment Entry`
             WHERE creation BETWEEN %(from_date)s AND %(to_date)s
-            GROUP BY payment_type, owner
+            GROUP BY payment_type, payment_type, owner
         """,
         {
             "from_date": from_date,
