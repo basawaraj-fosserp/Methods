@@ -29,17 +29,39 @@ frappe.UserActivity = {
 
 				let child_parent = $(".page-content").find('.user-activity')
 				child_parent.empty()
-				let html = `<style>th{background-color: #aababeff;}</style><div style="overflow-x: auto; width: 100%;">
+				let html = `<style>
+								td {
+									/* Add a background color to prevent content behind from showing through */
+									background-color: #fff; 
+								}
+								.freeze-column {
+									position: sticky;
+									left: 0;
+									z-index: 10;
+									/* Ensure it's above other scrolling content */
+								}
+								.table-container {
+									overflow-x: auto;
+									width: 100%;
+								}
+								.table {
+									min-width: 800px;
+									border-collapse: collapse;
+									table-layout: fixed;
+									width: 100%;
+								}
+							</style>
+								<div style="overflow-x: auto; width: 100%;" class="table-container">
 								<table class="table" border="1" 
 									style="min-width: 800px; border-collapse: collapse; table-layout: fixed; width: 100%;">
 									<tr>
-										<th style="width: 200px;">Accounting Voucher</th> 
-										<th style="width: 80px; text-align:center;">Count</th> 
-										<th style="width: 140px; text-align:center;">Value</th>
-							`
+										<th class="freeze-column" style="width: 200px; background-color: #81888aff; border-right:2px solid black;">Accounting Voucher</th>
+										<th style="width: 80px; text-align:center;" background-color: #c6f3ffff>Count</th>
+										<th style="width: 140px; text-align:center;" background-color: #c6f3ffff>Value</th>
+													`
 				
 							r.message.user_list.forEach(e=>{
-								html+=`<th style="width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><p align="center" >${e}</p></th>`
+								html+=`<th style="width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" background-color: #c6f3ffff><p align="center" >${e}</p></th>`
 							})
 				html += `</tr>`
 
@@ -50,8 +72,22 @@ frappe.UserActivity = {
 						currency: 'INR',
 						maximumFractionDigits: 0
 					}).format(value);
-					html += `<tr>
-								<td width="40px;">${e}</td>
+					html += `<tr>`
+					if(e == 'Payment Entry Pay'){
+						html += `
+									<td class="freeze-column" width="40px;" style="border-right:2px solid black;"><p align="right">Pay</p></td>`
+					}else if (e == 'Payment Entry Receive'){
+						html += `
+									<td class="freeze-column" width="40px;" style="border-right:2px solid black;"><p align="right">Receive</p></td>`
+					}else if (e == "Payment Entry Internal Transfer"){
+						html += `
+									<td class="freeze-column" width="40px;" style="border-right:2px solid black;"><p align="right">Internal Transfer</p></td>`
+					}else{
+						html += `
+									<td class="freeze-column" width="40px;" style="border-right:2px solid black;"><p>${e}</p></td>`
+					}
+
+					html += `
 								<td>
 									<p style="margin: 0; color: #333; font-weight: bold;" align="center">${r.message.data[e].count}</p>
 								</td>

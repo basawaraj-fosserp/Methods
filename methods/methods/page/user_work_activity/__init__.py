@@ -154,7 +154,124 @@ def get_doctype_data(from_date, to_date):
     doctype_list.append("Payment Entry")
     final_data_map["data"]["Payment Entry"]["count"] = count
     final_data_map["data"]["Payment Entry"]["value"] = value
+
+
+    #payment Entry Pay
+    payment_entry_data = frappe.db.sql(
+        """
+            SELECT 
+                COUNT(*) AS number_of_document,
+                SUM(paid_amount) AS value,
+                owner,
+                payment_type
+            FROM `tabPayment Entry`
+            WHERE creation BETWEEN %(from_date)s AND %(to_date)s and payment_type = 'Pay'
+            GROUP BY payment_type, payment_type, owner
+        """,
+        {
+            "from_date": from_date,
+            "to_date": to_date
+        },
+        as_dict=1
+    )
+    count = 0
+    value = 0
+    for row in payment_entry_data:
+        value += row.value
+        count += row.number_of_document
+        row.update({
+            frappe.db.get_value("User", row.owner, "full_name") : row.number_of_document,
+            "doctype" : "Payment Entry Pay"
+        })
+        if frappe.db.get_value("User", row.owner, "full_name") not in user_list:
+            user_list.append(frappe.db.get_value("User", row.owner, "full_name"))
     
+    final_data_map["data"]['Payment Entry Pay'] = {}
+    for row in payment_entry_data:
+        final_data_map["data"]["Payment Entry Pay"][frappe.db.get_value("User", row.owner, "full_name")] = row
+
+    doctype_list.append("Payment Entry Pay")
+    final_data_map["data"]["Payment Entry Pay"]["count"] = count
+    final_data_map["data"]["Payment Entry Pay"]["value"] = value
+
+    #payment entry receive
+    payment_entry_data = frappe.db.sql(
+        """
+            SELECT 
+                COUNT(*) AS number_of_document,
+                SUM(paid_amount) AS value,
+                owner,
+                payment_type
+            FROM `tabPayment Entry`
+            WHERE creation BETWEEN %(from_date)s AND %(to_date)s and payment_type = 'Receive'
+            GROUP BY payment_type, payment_type, owner
+        """,
+        {
+            "from_date": from_date,
+            "to_date": to_date
+        },
+        as_dict=1
+    )
+    count = 0
+    value = 0
+    for row in payment_entry_data:
+        value += row.value
+        count += row.number_of_document
+        row.update({
+            frappe.db.get_value("User", row.owner, "full_name") : row.number_of_document,
+            "doctype" : "Payment Entry Receive"
+        })
+        if frappe.db.get_value("User", row.owner, "full_name") not in user_list:
+            user_list.append(frappe.db.get_value("User", row.owner, "full_name"))
+    
+    final_data_map["data"]['Payment Entry Receive'] = {}
+    for row in payment_entry_data:
+        final_data_map["data"]["Payment Entry Receive"][frappe.db.get_value("User", row.owner, "full_name")] = row
+
+    doctype_list.append("Payment Entry Receive")
+    final_data_map["data"]["Payment Entry Receive"]["count"] = count
+    final_data_map["data"]["Payment Entry Receive"]["value"] = value
+
+
+    #payment entry internal transfer
+    payment_entry_data = frappe.db.sql(
+        """
+            SELECT 
+                COUNT(*) AS number_of_document,
+                SUM(paid_amount) AS value,
+                owner,
+                payment_type
+            FROM `tabPayment Entry`
+            WHERE creation BETWEEN %(from_date)s AND %(to_date)s and payment_type = 'Internal Transfer'
+            GROUP BY payment_type, payment_type, owner
+        """,
+        {
+            "from_date": from_date,
+            "to_date": to_date
+        },
+        as_dict=1
+    )
+    count = 0
+    value = 0
+    for row in payment_entry_data:
+        value += row.value
+        count += row.number_of_document
+        row.update({
+            frappe.db.get_value("User", row.owner, "full_name") : row.number_of_document,
+            "doctype" : "Payment Entry Internal Transfer"
+        })
+        if frappe.db.get_value("User", row.owner, "full_name") not in user_list:
+            user_list.append(frappe.db.get_value("User", row.owner, "full_name"))
+    
+    final_data_map["data"]['Payment Entry Internal Transfer'] = {}
+    for row in payment_entry_data:
+        final_data_map["data"]["Payment Entry Internal Transfer"][frappe.db.get_value("User", row.owner, "full_name")] = row
+
+    doctype_list.append("Payment Entry Internal Transfer")
+    final_data_map["data"]["Payment Entry Internal Transfer"]["count"] = count
+    final_data_map["data"]["Payment Entry Internal Transfer"]["value"] = value
+
+    # Purchase Order
     purchase_order_data = frappe.db.sql(
         """
             Select 
