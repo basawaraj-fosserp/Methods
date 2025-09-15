@@ -10,7 +10,8 @@ dynamic = ["version"]
 dependencies = [
     # "frappe~=15.0.0" # Installed and managed by bench.
     "pytesseract>=0.3.10",
-    "PyPDF2"
+    "PyPDF2",
+    "pdf2image"
 ]
 
 [build-system]
