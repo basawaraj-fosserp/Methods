@@ -198,8 +198,11 @@ def send_order_details():
             </div>
     '''
 
-    frappe.sendmail(
-			recipients=["viral.kansodiya77@gmail.com"],
-			message=html,
-			subject=_(f"Order Summery For {yesterday}"),
-		)
+    email_list = buying_doc.email_list.split("\n")
+
+    if email_list:
+        frappe.sendmail(
+                recipients=email_list,
+                message=html,
+                subject=_(f"Order Summery For {yesterday}"),
+            )
