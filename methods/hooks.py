@@ -51,6 +51,9 @@ scheduler_events = {
         "0 0 31 * *": [
 			"methods.methods.auto_email_report.send_on_31_of_the_month"
 		],
+		"0 9 * * *": [
+			"methods.methods.api.send_order_details"
+		]
 	},
 	"hourly": [
 		"methods.methods.api.delete_communications"
