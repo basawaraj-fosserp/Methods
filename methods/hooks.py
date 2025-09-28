@@ -142,7 +142,8 @@ has_permission = {
 
 override_doctype_class = {
 	"Amazon SP API Settings": "methods.methods.amazon_sp_api_settings.MethodAmazonSPAPISetting",
-    "BillofEntry" : "methods.methods.docevents.bill_of_entry.get_items_from_purchase_invoice"
+    "BillofEntry" : "methods.methods.docevents.bill_of_entry.get_items_from_purchase_invoice",
+	"Bank Clearance" : "methods.methods.override.bank_clearance.MethodBankClearance"
 }
 
 # Document Events

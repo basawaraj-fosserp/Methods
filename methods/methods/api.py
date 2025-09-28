@@ -197,9 +197,9 @@ def send_order_details():
                 </div>
             </div>
     '''
-
+    print(buying_doc.email_list)
     email_list = buying_doc.email_list.split("\n")
-
+    print(email_list)
     if email_list:
         frappe.sendmail(
                 recipients=email_list,

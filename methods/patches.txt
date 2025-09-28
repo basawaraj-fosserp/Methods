@@ -6,3 +6,4 @@
 # Patches added in this section will be executed after doctypes are migrated
 methods.patches.create_field_for_send_email
 methods.patches.create_filters_in_buying_settings
+methods.patches.cleate_property_setter
