@@ -13,7 +13,7 @@ def execute(filters=None):
         {"label": "Order Value (Month to Yesterday)", "fieldname": "value_mtd", "fieldtype": "Currency", "width": 220},
     ]
 
-    conditions = ["po.docstatus = 1"]
+    conditions = ["po.docstatus < 2"]
     params = {
         "yesterday": yesterday,
         "month_start": month_start
@@ -50,10 +50,10 @@ def execute(filters=None):
     data = frappe.db.sql(f"""
         SELECT
             po.supplier,
-            SUM(CASE WHEN po.transaction_date = %(yesterday)s THEN 1 ELSE 0 END) AS orders_yesterday,
-            SUM(CASE WHEN po.transaction_date = %(yesterday)s THEN po.base_grand_total ELSE 0 END) AS value_yesterday,
-            SUM(CASE WHEN po.transaction_date BETWEEN %(month_start)s AND %(yesterday)s THEN 1 ELSE 0 END) AS orders_mtd,
-            SUM(CASE WHEN po.transaction_date BETWEEN %(month_start)s AND %(yesterday)s THEN po.base_grand_total ELSE 0 END) AS value_mtd
+            SUM(CASE WHEN po.creation = %(yesterday)s THEN 1 ELSE 0 END) AS orders_yesterday,
+            SUM(CASE WHEN po.creation = %(yesterday)s THEN po.base_grand_total ELSE 0 END) AS value_yesterday,
+            SUM(CASE WHEN po.creation BETWEEN %(month_start)s AND %(yesterday)s THEN 1 ELSE 0 END) AS orders_mtd,
+            SUM(CASE WHEN po.creation BETWEEN %(month_start)s AND %(yesterday)s THEN po.base_grand_total ELSE 0 END) AS value_mtd
         FROM
             `tabPurchase Order` po
         WHERE {where_clause}
