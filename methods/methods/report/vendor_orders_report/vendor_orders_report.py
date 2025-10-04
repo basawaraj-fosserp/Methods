@@ -50,10 +50,10 @@ def execute(filters=None):
     data = frappe.db.sql(f"""
         SELECT
             po.supplier,
-            SUM(CASE WHEN po.creation = %(yesterday)s THEN 1 ELSE 0 END) AS orders_yesterday,
-            SUM(CASE WHEN po.creation = %(yesterday)s THEN po.base_grand_total ELSE 0 END) AS value_yesterday,
-            SUM(CASE WHEN po.creation BETWEEN %(month_start)s AND %(yesterday)s THEN 1 ELSE 0 END) AS orders_mtd,
-            SUM(CASE WHEN po.creation BETWEEN %(month_start)s AND %(yesterday)s THEN po.base_grand_total ELSE 0 END) AS value_mtd
+            SUM(CASE WHEN Date(po.creation) = %(yesterday)s THEN 1 ELSE 0 END) AS orders_yesterday,
+            SUM(CASE WHEN Date(po.creation) = %(yesterday)s THEN po.base_grand_total ELSE 0 END) AS value_yesterday,
+            SUM(CASE WHEN Date(po.creation) BETWEEN %(month_start)s AND %(yesterday)s THEN 1 ELSE 0 END) AS orders_mtd,
+            SUM(CASE WHEN Date(po.creation) BETWEEN %(month_start)s AND %(yesterday)s THEN po.base_grand_total ELSE 0 END) AS value_mtd
         FROM
             `tabPurchase Order` po
         WHERE {where_clause}
