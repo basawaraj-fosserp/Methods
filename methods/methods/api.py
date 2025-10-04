@@ -108,6 +108,12 @@ def send_order_details():
     total_order = sum ([
         row.orders_yesterday for row in data
     ])
+    total_value_month = sum([
+        row.value_mtd for row in data
+    ])
+    total_order_month = sum([
+        row.orders_mtd for row in data
+    ])
    
     html = '''
             <style>
@@ -147,18 +153,18 @@ def send_order_details():
                 </div>
 
                 <div class="content">
-                    <p class="intro">Hello,</p>
-                    <p class="intro">Below is the summary of suppliers who had orders yesterday.</p>
+                    <p class="intro">Hello, Below is the summary of Purchase Orders for the month of {getdate(yesterday).strftime("%B")}.</p>
+                    <p class="intro"></p>
 
                     <!-- Summary cards (optional totals) -->
-                    <div class="summary" aria-hidden="true">
+                    <div class="summary">
                     <div class="card">
                         <div class="label">Date</div>
                         <div class="value">{formatdate(yesterday)}</div>
                     </div>
                     <div class="card">
                         <div class="label">Total Orders On {formatdate(yesterday)}</div>
-                        <div class="value">{total_order}</div>
+                        <div class="value">{int(total_order)}</div>
                     </div>
                     <div class="card">
                         <div class="label">Total value On {formatdate(yesterday)}</div>
@@ -183,12 +189,21 @@ def send_order_details():
                             <!-- Row(s) -->
                             <tr>
                                 <td>{row.supplier}</td>
-                                <td style="text-align:center">{row.orders_yesterday}</td>
+                                <td style="text-align:center">{int(row.orders_yesterday)}</td>
                                 <td style="text-align:center">{fmt_money(int(row.value_yesterday), currency="INR").replace(".00",'')}</td>
-                                <td style="text-align:center">{row.orders_mtd}</td>
+                                <td style="text-align:center">{int(row.orders_mtd)}</td>
                                 <td style="text-align:center">{fmt_money(int(row.value_mtd), currency="INR").replace(".00",'')}</td>
                             </tr>
             '''
+    html += f'''
+            <tr>
+                <td style="background-color:powderblue;">Totals</td>
+                <td style="text-align:center; background-color:powderblue;">{int(total_order)}</td>
+                <td style="text-align:center; background-color:powderblue;">{fmt_money(int(total_value), currency="INR").replace(".00",'')}</td>
+                <td style="text-align:center; background-color:powderblue;">{int(total_order_month)}</td>
+                <td style="text-align:center; background-color:powderblue;">{fmt_money(int(total_value_month), currency="INR").replace(".00",'')}</td>
+            <tr>
+    '''
     html += f'''
                     </tbody>
                     </table>
@@ -204,5 +219,5 @@ def send_order_details():
         frappe.sendmail(
                 recipients=email_list,
                 message=html,
-                subject=_(f"Order Summery For {yesterday}"),
+                subject=_(f"Purchase Order Summary For {yesterday}"),
             )
