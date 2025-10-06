@@ -58,7 +58,7 @@ def execute(filters=None):
             `tabPurchase Order` po
         WHERE {where_clause}
         GROUP BY po.supplier
-        HAVING orders_yesterday > 0
+        HAVING orders_mtd > 0
         ORDER BY po.supplier
     """, params, as_dict=True)
 
