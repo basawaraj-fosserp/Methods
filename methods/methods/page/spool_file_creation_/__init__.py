@@ -53,7 +53,7 @@ def create_spool_file(invoices):
                     "(" + ", ".join([f'"{l}"' for l in actual_list]) + ")")
         
     data = frappe.db.sql(f"""
-                SELECT si.name, si.schedule_no, si.posting_date, si.company_gstin, si.irn,si.po_no,
+                SELECT si.name, si.schedule_no, si.posting_date, si.company_gstin, si.irn,si.po_no,sii.rate,si.grand_total, 
                 sii.item_code, sii.qty, item.per_bin_qty, item.batch_no, sii.gst_hsn_code,
                 sii.item_tax_template, sii.igst_rate, sii.igst_amount, sii.cgst_rate, sii.cgst_amount,
                 sii.sgst_rate, sii.sgst_amount
@@ -117,7 +117,10 @@ def create_spool_file(invoices):
             content += "NA"
 
             content = content.ljust(290)
-            content += "{0}".format(row.irn)
+            content += "{0}{1}".format(row.irn, row.rate)
+
+            content = content.ljust(367)
+            content += "{0}".format(row.grand_total)
 
             content += "\n"
 
