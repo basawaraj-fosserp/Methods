@@ -117,7 +117,7 @@ def create_spool_file(invoices):
             content += "NA"
 
             content = content.ljust(290)
-            content += "{0}{1}".format(row.irn, row.rate)
+            content += "{0}".format(row.irn)
 
             content = content.ljust(354)
             content += "{0}".format(row.rate)
