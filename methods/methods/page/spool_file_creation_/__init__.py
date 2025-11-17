@@ -119,6 +119,9 @@ def create_spool_file(invoices):
             content = content.ljust(290)
             content += "{0}{1}".format(row.irn, row.rate)
 
+            content = content.ljust(355)
+            content += "{0}".format(row.rate)
+
             content = content.ljust(367)
             content += "{0}".format(row.grand_total)
 
