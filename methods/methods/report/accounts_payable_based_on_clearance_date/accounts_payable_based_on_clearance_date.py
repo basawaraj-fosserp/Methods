@@ -41,8 +41,8 @@ from erpnext.accounts.utils import (
 
 def execute(filters=None):
 	args = {
-		"account_type": "Receivable",
-		"naming_by": ["Selling Settings", "cust_master_name"],
+		"account_type": "Payable",
+		"naming_by": ["Buying Settings", "supp_master_name"],
 	}
 	return ReceivablePayableReport(filters).run(args)
 
