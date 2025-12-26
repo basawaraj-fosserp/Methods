@@ -108,6 +108,8 @@ class ReceivablePayableReport:
 					"is_actually_paid" : is_paid[0].paid_status,
 				})
 				data.append(row)
+			else:
+				data.append(row)
 			
 		self.data = data
 		return self.columns, self.data, None, self.chart, None, self.skip_total_row
